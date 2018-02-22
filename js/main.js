@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function(){
         image.classList.add(cacheKey);
         
         if(!cache.hasOwnProperty(cacheKey)){
-            var endpoint = "http://api.wurstmineberg.de/v2/minecraft/items";
+            var endpoint = "https://api.wurstmineberg.de/v2/minecraft/items";
             
             if(dataset.durability!=0){
                 endpoint += "/by-damage/minecraft/"+items[dataset.item].text_id+"/"+dataset.durability+".json";
