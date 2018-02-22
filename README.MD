@@ -10,7 +10,7 @@ Report issues: https://github.com/rodel77/MarketPlace-Web/issues
 + mysqli extension enabled
 
 ## How to install:
-+ Download and copy the files into the folder you want to put the page
++ Download and copy the files into the folder you want to put the page https://github.com/rodel77/MarketPlace-Web/releases
 + Configure MySQL host, user, password, db and table in ``config.php``
 + Enjoy!
 
