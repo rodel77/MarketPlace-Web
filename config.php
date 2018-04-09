@@ -7,4 +7,7 @@
     define("ITEMS_PER_PAGE", 10);
     define("MAX_LORE_LENGTH", 100);
     define("MAX_NAME_LENGTH", 25);
+    define("LOW_DURABILITY", 25);
+    define("MID_DURABILITY", 50);
+    define("GOOD_DURABILITY", 75);
 ?>
