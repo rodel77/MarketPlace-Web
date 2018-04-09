@@ -90,19 +90,15 @@
                     $durability = $entry["item_durability"];
                     $type = $entry["item_type"];
                     
-
-                                  
                     foreach ($lore as $line){
                         $res = filtercolorcodes($line);
-                        $loreparsed = $loreparsed.$res."</br>";
+                        $loreparsed = $loreparsed . htmlspecialchars($res, ENT_QUOTES, "UTF-8") . "</br>";
 
                     }
                   
                     if (strlen($loreparsed) > (int)MAX_LORE_LENGTH){
-                        
-                       $loreparsed = substr($loreparsed, 0,(int)MAX_LORE_LENGTH);
+                        $loreparsed = substr($loreparsed, 0,(int)MAX_LORE_LENGTH);
                         $loreparsed = $loreparsed."...";
-                        
                     }
                     
                     if ($durability > 0 && SearchTools($tools,$type)){
@@ -150,16 +146,17 @@
                     
                     
                     
+
                     if (empty($name)){
-                        
                         $name = str_replace("_"," ",strtolower ($type)); 
                     }
-                     if (strlen($name) > (int) MAX_NAME_LENGTH){
-                        
-                       $name = substr($name, 0,(int)MAX_NAME_LENGTH);
+                    if (strlen($name) > (int) MAX_NAME_LENGTH){
+                        $name = substr($name, 0,(int)MAX_NAME_LENGTH);
                         $name = $name."...";
-                        
                     }
+                  
+                    $name = htmlspecialchars($name, ENT_QUOTES, "UTF-8");
+
                    $amount = $entry["item_amount"];
                     if ($filter == 5){
                         if ($amount == 1){
@@ -251,15 +248,7 @@
                        $price = $price." ($".$peritem." Per Item)";
                        
                    }
-                   
-                   
-                   
-                    
-                    
-                    
-                
-                   
-                   
+    
                    if ($thp == 0){
                         echo '<tr>';
                         $thp = 1;

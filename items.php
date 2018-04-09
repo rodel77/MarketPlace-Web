@@ -19,9 +19,7 @@
         return filtercolorcodes($name[1]);
     }
     function filtercolorcodes($nbt){
-        $filtered = preg_replace("(§[a-z,0-9])"," ",$nbt);
-       
-        return  $filtered;
+        return  preg_replace("(§[a-z,0-9])"," ",$nbt);
     }
     function getMaxdurability($tools,$material) {
          foreach ($tools as $tool){
