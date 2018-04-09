@@ -16,12 +16,45 @@
             <th scope="col">Amount</th>
             <th scope="col">Price</th>
             <th scope="col">Published</th>
+            <th scope="col"><form class="form-inline" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            
+            <label class="col-md-4 control-label" for="filteroptions">Filters</label>
+              <select value='<? echo $_GET["filteroptions"]; ?>' id="filteroptions" name="filteroptions" class="form-control form-control-sm">
+              <option value="0">None</option>
+              <option value="1">Damaged Items</option>
+              <option value="2">Tools and Weapons</option>
+              <option value="3">Price Below Target</option>
+              <option value="4">Price Above Target</option>
+              <option value="5">Single Item</option>
+              <option value="6">0-16 Items</option>
+              <option value="7">16-32 Items</option>
+              <option value="8">32-48 Items</option>
+              <option value="9">48-64 Items</option>
+              <option value="10">Full Stacks</option>
+            </select> ~ 
+            
+            
+              <input id="pricetarget" name="pricetarget" value='<? echo $_GET["pricetarget"]; ?>' placeholder="0.00" class="form-control form-control-sm" type="text"> ~ 
+                
+                
+                  
+              <button type="submit" class="btn btn-primary">Apply</button>
+           
+              </form>
+              </th>
         </thead>
         <tbody>
             <?php
                 include("config.php");
                 include("items.php");
-                $tools = array("FISHING_ROD", "FLINT_AND_STEEL", "GOLD_AXE", "GOLD_BOOTS","GOLD_CHESTPLATE","GOLD_HELMET","GOLD_HOE","GOLD_LEGGINGS","GOLD_PICKAXE","GOLD_SPADE","GOLD_SWORD","IRON_AXE","IRON_BOOTS","IRON_CHESTPLATE","IRON_HELMET","IRON_HOE","IRON_LEGGINGS","IRON_PICKAXE","IRON_SPADE","IRON_SWORD","LEATHER_BOOTS","LEATHER_CHESTPLATE","LEATHER_HELMET","LEATHER_LEGGINGS","STONE_AXE","STONE_HOE","STONE_PICKAXE","STONE_SPADE","STONE_SWORD","WOOD_AXE","WOOD_HOE","WOOD_PICKAXE","WOOD_SPADE","WOOD_SWORD","BOW","CHAINMAIL_BOOTS","CHAINMAIL_CHESTPLATE","CHAINMAIL_HELMET","CHAINMAIL_LEGGINGS","DIAMOND_AXE","DIAMOND_BOOTS","DIAMOND_CHESTPLATE","DIAMOND_HELMET","DIAMOND_HOE","DIAMOND_LEGGINGS","DIAMOND_PICKAXE","DIAMOND_SPADE","DIAMOND_SWORD","SHEARS","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0");
+                if (isset($_GET['filteroptions'])){
+                $filter = $_GET['filteroptions'];
+                $thp = 0;
+                   }else {
+                $filter = 0;
+                $thp = 0;
+                   }
+                $tools = array("CARROT_STICK#26","FISHING_ROD#65", "FLINT_AND_STEEL#65", "GOLD_AXE#33", "GOLD_BOOTS#92","GOLD_CHESTPLATE#113","GOLD_HELMET#78","GOLD_HOE#33","GOLD_LEGGINGS#106","GOLD_PICKAXE#33","GOLD_SPADE#33","GOLD_SWORD#33","IRON_AXE#251","IRON_BOOTS#196","IRON_CHESTPLATE#241","IRON_HELMET#166","IRON_HOE#251","IRON_LEGGINGS#226","IRON_PICKAXE#251","IRON_SPADE#251","IRON_SWORD#251","LEATHER_BOOTS#66","LEATHER_CHESTPLATE#81","LEATHER_HELMET#56","LEATHER_LEGGINGS#76","STONE_AXE#132","STONE_HOE#132","STONE_PICKAXE#132","STONE_SPADE#132","STONE_SWORD#132","WOOD_AXE#60","WOOD_HOE#60","WOOD_PICKAXE#60","WOOD_SPADE#60","WOOD_SWORD#60","BOW#385","CHAINMAIL_BOOTS#196","CHAINMAIL_CHESTPLATE#241","CHAINMAIL_HELMET#166","CHAINMAIL_LEGGINGS#226","DIAMOND_AXE#1562","DIAMOND_BOOTS#430","DIAMOND_CHESTPLATE#529","DIAMOND_HELMET#364","DIAMOND_HOE#1562","DIAMOND_LEGGINGS#496","DIAMOND_PICKAXE#1562","DIAMOND_SPADE#1562","DIAMOND_SWORD#1562","SHEARS#239");
                 $connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
                 $page = isset($_GET["page"]) ? $_GET["page"] : 1;
                 
@@ -39,7 +72,13 @@
                 
                 $result = $connection->query($query);
 
+                
+               
+                
+                
+                
                 while(true){
+                    $thp = 0;
                     $entry = $result->fetch_array();
 
                     if($entry==null){
@@ -61,12 +100,53 @@
                         $loreparsed = substr($loreparsed, 0,(int)MAX_LORE_LENGTH);
                         $loreparsed = $loreparsed."...";
                     }
-                  
-                    if ($durability > 0 && in_array($type,$tools)){
+                    
+                    if ($durability > 0 && SearchTools($tools,$type)){
+
                         $loreparsed = $loreparsed."</br> Damaged: ".$durability;
+                        if ($filter == 1){
+                            $tooldurability = getMaxdurability($tools,$type);
+                            $low = ($tooldurability / 100 * LOW_DURABILITY);
+                            $mid = ($tooldurability / 100 * MID_DURABILITY);
+                            $high = ($tooldurability / 100 * GOOD_DURABILITY);
+                            $damage = ($tooldurability - $durability);
+                            
+                            
+                            if ($damage < $low){
+                                echo '<tr class="table-danger">';
+                                $thp = 1;
+                            }elseif ($damage < $mid){
+                                 echo '<tr class="table-warning">';
+                                 $thp = 1;
+                            }elseif ($damage < $high){
+                               echo '<tr class="table-success">';
+                               $thp = 1;
+                            }else {
+                                echo '<tr class="table-success">';
+                                $thp = 1;
+                            }
+                           
+                           
+                                
+                            
+                                
+                            }elseif ($filter == 2){
+                              echo '<tr class="table-info">';
+                              $thp = 1;
+                                
+                            }
+                            
+                    }else {
+                        
+                        
                     }
                         
                     
+                        
+                    
+                    
+                    
+
                     if (empty($name)){
                         $name = str_replace("_"," ",strtolower ($type)); 
                     }
@@ -74,18 +154,106 @@
                         $name = substr($name, 0,(int)MAX_NAME_LENGTH);
                         $name = $name."...";
                     }
+                  
                     $name = htmlspecialchars($name, ENT_QUOTES, "UTF-8");
 
-                    $amount = $entry["item_amount"];
-                   
-                    $price = $entry["price"];
-
-                    if ($amount > 1){
-                       $peritem = ($price / $amount);
-                       $price = $price." ($".$peritem." Per Item)";
+                   $amount = $entry["item_amount"];
+                    if ($filter == 5){
+                        if ($amount == 1){
+                            
+                            echo '<tr class="table-success">';
+                            $thp = 1;
+                        }
+                        
+                    }
+                    if ($filter == 6){
+                        if ($amount < 17){
+                            echo '<tr class="table-success">';
+                            $thp = 1;
+                        }
+                        
+                    }
+                    if ($filter == 7){
+                        if ($amount < 33 && $amount > 15){
+                            
+                            echo'<tr class="table-success">';
+                            $thp = 1;
+                        }
+                        
+                    }
+                    if ($filter == 8){
+                        if ($amount < 49 && $amount > 31){
+                            
+                            echo'<tr class="table-success">';
+                            $thp = 1;
+                        }
+                        
+                    }
+                    if ($filter == 9){
+                        if ($amount < 65 && $amount > 47){
+                            echo '<tr class="table-success">';
+                            $thp = 1;
+                            
+                        }
+                        
+                    }
+                    if ($filter == 10){
+                        if ($amount == 64){
+                            echo '<tr class="table-success">';
+                            $thp = 1;
+                            
+                        }
+                        
                     }
                    
-                    echo "<tr>";
+                   
+                   $price = $entry["price"];
+                    if ($filter == 3){
+                    if (isset($_GET['pricetarget'])){
+                        $target = $_GET['pricetarget'];
+                    if ($price < $target){
+                        echo'<tr class="table-success">';
+                        $thp = 1;
+                        
+                    }else {
+                        echo'<tr>';
+                        $thp = 1;
+                        
+                    }
+                    
+                    
+                    
+                    }
+                }
+                    if ($filter == 4){
+                    if (isset($_GET['pricetarget'])){
+                        $target = $_GET['pricetarget'];
+                    if ($price > $target){
+                        echo'<tr class="table-success">';
+                        $thp = 1;
+                    }else {
+                        echo '<tr>';
+                        $thp = 1;
+                        
+                    }
+                    
+                    
+                    
+                    }
+                    }
+                
+                   if ($amount > 1){
+                       
+                       $peritem = ($price / $amount);
+                       $price = $price." ($".$peritem." Per Item)";
+                       
+                   }
+    
+                   if ($thp == 0){
+                        echo '<tr>';
+                        $thp = 1;
+                   }
+                    
                     echo "<th><img class='head-image' data-player='". $entry["seller"] ."' data-name='". $entry["seller_name"] ."' src='img/loader.svg'><span class='name'></span></img></th>";
                     echo "<th><img class='item-image' data-item='". $type ."' data-amount='". $amount ."' data-durability='". $durability ."' data-nbt='". $nbt ."' src='img/loader.svg'></img>".$name."</th>";
                     if (count($lore) < 2){
@@ -97,6 +265,7 @@
                     echo "<th>".$amount."</th>";
                     echo "<th>$". $price ."</th>";
                     echo "<th class='date-moment'>". $entry["publish_date"] ."</th>";
+                    echo "<th></th>";
                     echo "</tr>";
                 }
 

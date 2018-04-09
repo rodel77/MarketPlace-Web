@@ -21,4 +21,30 @@
     function filtercolorcodes($nbt){
         return  preg_replace("(§[a-z,0-9])"," ",$nbt);
     }
+    function getMaxdurability($tools,$material) {
+         foreach ($tools as $tool){
+            $exp = explode('#',$tool);
+                if ($material == $exp[0]){
+                    return $exp[1];
+                }
+            
+         }
+         return 0;
+                
+    }
+    function SearchTools($tools,$material) {
+        foreach ($tools as $tool){
+            $exp = explode('#',$tool);
+                if ($material == $exp[0]){
+                    return true;
+                }
+                
+                
+            
+            
+            
+            
+        }
+    return false;
+    }
 ?>
