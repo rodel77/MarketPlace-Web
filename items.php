@@ -30,19 +30,14 @@
          return 0;
                 
     }
-    function SearchTools($tools,$material) {
+    function isTool($tools,$material) {
         foreach ($tools as $tool){
             $exp = explode('#',$tool);
-                if ($material == $exp[0]){
-                    return true;
-                }
-                
-                
-            
-            
-            
-            
+            if ($material == $exp[0]){
+                return true;
+            }
         }
-    return false;
+
+        return false;
     }
 ?>
