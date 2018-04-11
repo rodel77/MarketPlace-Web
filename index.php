@@ -71,11 +71,6 @@
 
                 
                 $result = $connection->query($query);
-
-                
-               
-                
-                
                 
                 while(true){
                     $thp = 0;
@@ -84,6 +79,7 @@
                     if($entry==null){
                         break;
                     }
+
                     $nbt = $entry["item_nbt"];
                     $name = getname($entry["item_nbt"])[0];
                     $lore = getlore($entry["item_nbt"]);
@@ -93,7 +89,6 @@
                     foreach ($lore as $line){
                         $res = filtercolorcodes($line);
                         $loreparsed = $loreparsed . htmlspecialchars($res, ENT_QUOTES, "UTF-8") . "</br>";
-
                     }
                   
                     if (strlen($loreparsed) > (int)MAX_LORE_LENGTH){
@@ -111,45 +106,26 @@
                             $high = ($tooldurability / 100 * GOOD_DURABILITY);
                             $damage = ($tooldurability - $durability);
                             
-                            
                             if ($damage < $low){
                                 echo '<tr class="table-danger">';
                                 $thp = 1;
                             }elseif ($damage < $mid){
                                  echo '<tr class="table-warning">';
                                  $thp = 1;
-                            }elseif ($damage < $high){
-                               echo '<tr class="table-success">';
-                               $thp = 1;
                             }else {
                                 echo '<tr class="table-success">';
                                 $thp = 1;
                             }
-                           
-                           
-                                
-                            
-                                
-                            }elseif ($filter == 2){
-                              echo '<tr class="table-info">';
-                              $thp = 1;
-                                
-                            }
-                            
-                    }else {
-                        
-                        
+                        }elseif ($filter == 2){
+                            echo '<tr class="table-info">';
+                            $thp = 1;
+                        }
                     }
-                        
-                    
-                        
-                    
-                    
-                    
 
                     if (empty($name)){
                         $name = str_replace("_"," ",strtolower ($type)); 
                     }
+
                     if (strlen($name) > (int) MAX_NAME_LENGTH){
                         $name = substr($name, 0,(int)MAX_NAME_LENGTH);
                         $name = $name."...";
@@ -157,118 +133,84 @@
                   
                     $name = htmlspecialchars($name, ENT_QUOTES, "UTF-8");
 
-                   $amount = $entry["item_amount"];
-                    if ($filter == 5){
-                        if ($amount == 1){
-                            
-                            echo '<tr class="table-success">';
-                            $thp = 1;
-                        }
-                        
+                    $amount = $entry["item_amount"];
+
+                    if ($filter == 5 && $amount == 1){
+                        echo '<tr class="table-success">';
+                        $thp = 1;
                     }
-                    if ($filter == 6){
-                        if ($amount < 17){
-                            echo '<tr class="table-success">';
-                            $thp = 1;
-                        }
-                        
+                    if ($filter == 6 && $amount < 17){
+                        echo '<tr class="table-success">';
+                        $thp = 1;
                     }
-                    if ($filter == 7){
-                        if ($amount < 33 && $amount > 15){
-                            
-                            echo'<tr class="table-success">';
-                            $thp = 1;
-                        }
-                        
-                    }
-                    if ($filter == 8){
-                        if ($amount < 49 && $amount > 31){
-                            
-                            echo'<tr class="table-success">';
-                            $thp = 1;
-                        }
-                        
-                    }
-                    if ($filter == 9){
-                        if ($amount < 65 && $amount > 47){
-                            echo '<tr class="table-success">';
-                            $thp = 1;
-                            
-                        }
-                        
-                    }
-                    if ($filter == 10){
-                        if ($amount == 64){
-                            echo '<tr class="table-success">';
-                            $thp = 1;
-                            
-                        }
-                        
-                    }
-                   
-                   
-                   $price = $entry["price"];
-                    if ($filter == 3){
-                    if (isset($_GET['pricetarget'])){
-                        $target = $_GET['pricetarget'];
-                    if ($price < $target){
+                    if ($filter == 7 && $amount < 33 && $amount > 15){
                         echo'<tr class="table-success">';
                         $thp = 1;
-                        
-                    }else {
-                        echo'<tr>';
-                        $thp = 1;
-                        
                     }
-                    
-                    
-                    
-                    }
-                }
-                    if ($filter == 4){
-                    if (isset($_GET['pricetarget'])){
-                        $target = $_GET['pricetarget'];
-                    if ($price > $target){
+
+                    if ($filter == 8 && $amount < 49 && $amount > 31){
                         echo'<tr class="table-success">';
                         $thp = 1;
-                    }else {
-                        echo '<tr>';
+                    }
+
+                    if ($filter == 9 && $amount < 65 && $amount > 47){
+                        echo '<tr class="table-success">';
                         $thp = 1;
-                        
                     }
-                    
-                    
-                    
+
+                    if ($filter == 10 && $amount == 64){
+                        echo '<tr class="table-success">';
+                        $thp = 1;
                     }
+                   
+                    $price = $entry["price"];
+                    if ($filter == 3 && isset($_GET['pricetarget'])){
+                        $target = $_GET['pricetarget'];
+                        if ($price < $target){
+                            echo'<tr class="table-success">';
+                            $thp = 1;
+                        }else {
+                            echo'<tr>';
+                            $thp = 1;
+                        }
+                    }
+
+                    if ($filter == 4 && isset($_GET['pricetarget'])){
+                        $target = $_GET['pricetarget'];
+                        if ($price > $target){
+                            echo'<tr class="table-success">';
+                            $thp = 1;
+                        }else {
+                            echo '<tr>';
+                            $thp = 1;
+                        }
                     }
                 
-                   if ($amount > 1){
-                       
-                       $peritem = ($price / $amount);
-                       $price = $price." ($".$peritem." Per Item)";
-                       
-                   }
-    
-                   if ($thp == 0){
-                        echo '<tr>';
-                        $thp = 1;
-                   }
+                    if ($amount > 1){
+                        $peritem = ($price / $amount);
+                        $price = $price." ($".$peritem." Per Item)";
+                    }
+        
+                    if ($thp == 0){
+                            echo '<tr>';
+                            $thp = 1;
+                    }
                     
                     echo "<th><img class='head-image' data-player='". $entry["seller"] ."' data-name='". $entry["seller_name"] ."' src='img/loader.svg'><span class='name'></span></img></th>";
                     echo "<th><img class='item-image' data-item='". $type ."' data-amount='". $amount ."' data-durability='". $durability ."' data-nbt='". $nbt ."' src='img/loader.svg'></img>".$name."</th>";
+
                     if (count($lore) < 2){
-                    echo "<th>Base Item</th>";
+                        echo "<th>Base Item</th>";
                     }else {
                         echo "<th>".$loreparsed."</th>";
-                        
                     }
+
                     echo "<th>".$amount."</th>";
                     echo "<th>$". $price ."</th>";
                     echo "<th class='date-moment'>". $entry["publish_date"] ."</th>";
                     echo "<th></th>";
                     echo "</tr>";
                 }
-
             ?>
         </tbody>
     </table>
