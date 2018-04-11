@@ -84,6 +84,7 @@
                     $lore = getlore($nbt);
                     $durability = $entry["item_durability"];
                     $type = $entry["item_type"];
+                    $isTool = isTool($tools, $type);
                     
                     // Strip & parse lore
                     $loreparsed = "";
@@ -99,8 +100,8 @@
                     }
                     
                     // Durability
-                    if ($durability > 0 && isTool($tools,$type)){
-                        $loreparsed = $loreparsed."</br> Damaged: ".$durability;
+                    if ($durability > 0 && $isTool){
+                        $loreparsed = $loreparsed."Damaged: ".$durability;
                         if ($filter == 1){
                             $tooldurability = getMaxdurability($tools,$type);
                             $low = ($tooldurability / 100 * LOW_DURABILITY);
@@ -196,9 +197,10 @@
                     
 
                     echo "<th><img class='head-image' data-player='". $entry["seller"] ."' data-name='". $entry["seller_name"] ."' src='img/loader.svg'><span class='name'></span></img></th>";
-                    echo "<th><img class='item-image' data-item='". $type ."' data-name='". $name ."' data-amount='". $amount ."' data-durability='". $durability ."' data-nbt='". $nbt ."' src='img/loader.svg'></img><span class='name ".(empty($name) ? "" : "done")."'>".(empty($name) ? "" : $name)."</span></th>";
+                    echo "<th><img class='item-image' data-tool='".($isTool ? "true" : "false")."' data-item='". $type ."' data-name='". $name ."' data-amount='". $amount ."' data-durability='". $durability ."' data-nbt='". $nbt ."' src='img/loader.svg'></img><span class='name ".(empty($name) ? "" : "done")."'>".(empty($name) ? "" : $name)."</span></th>";
 
-                    if (count($lore) < 2){
+
+                    if(empty($loreparsed)){
                         echo "<th>Base Item</th>";
                     }else {
                         echo "<th>".$loreparsed."</th>";

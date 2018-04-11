@@ -30,10 +30,11 @@
          return 0;
                 
     }
-    function isTool($tools,$material) {
+    
+    function isTool($tools, $material) {
         foreach ($tools as $tool){
-            $exp = explode('#',$tool);
-            if ($material == $exp[0]){
+            $toolID = explode('#', $tool);
+            if ($material == $toolID[0]){
                 return true;
             }
         }

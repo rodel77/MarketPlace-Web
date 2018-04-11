@@ -5,14 +5,14 @@ document.addEventListener("DOMContentLoaded", function(){
     for (var item of images) {
         var dataset = item.dataset;
         var itemId = items[dataset.item].text_id;
-        var cacheKey = itemId+"-"+dataset.durability;
+        var cacheKey = itemId+(dataset.tool==="false" ? "-"+dataset.durability : "");
 
         item.classList.add(cacheKey);
         
         if(!cache.hasOwnProperty(cacheKey)){
             var endpoint = "https://api.wurstmineberg.de/v2/minecraft/items";
             
-            if(dataset.durability!=0){
+            if(dataset.durability!=0 && dataset.tool==="false"){
                 endpoint += "/by-damage/minecraft/"+items[dataset.item].text_id+"/"+dataset.durability+".json";
             }else{
                 endpoint += "/by-id/minecraft/"+items[dataset.item].text_id+".json";
