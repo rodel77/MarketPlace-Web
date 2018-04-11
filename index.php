@@ -68,7 +68,6 @@
                 $page = max(1, $page);
                 mysqli_set_charset($connection,'utf8');
                 $query = "select * from ".DB_TABLE_CATALOG." where `buyer` is null order by `publish_date` desc limit ". (($page - 1) * ITEMS_PER_PAGE) .",". ITEMS_PER_PAGE;
-
                 
                 $result = $connection->query($query);
                 
@@ -81,14 +80,16 @@
                     }
 
                     $nbt = $entry["item_nbt"];
-                    $name = getname($entry["item_nbt"])[0];
-                    $lore = getlore($entry["item_nbt"]);
+                    $name = getname($nbt);
+                    $lore = getlore($nbt);
                     $durability = $entry["item_durability"];
                     $type = $entry["item_type"];
                     
+                    $loreparsed = "";
+
                     foreach ($lore as $line){
                         $res = filtercolorcodes($line);
-                        $loreparsed = $loreparsed . htmlspecialchars($res, ENT_QUOTES, "UTF-8") . "</br>";
+                        $loreparsed = $loreparsed . htmlspecialchars($res) . "</br>";
                     }
                   
                     if (strlen($loreparsed) > (int)MAX_LORE_LENGTH){
@@ -120,10 +121,6 @@
                             echo '<tr class="table-info">';
                             $thp = 1;
                         }
-                    }
-
-                    if (empty($name)){
-                        $name = str_replace("_"," ",strtolower ($type)); 
                     }
 
                     if (strlen($name) > (int) MAX_NAME_LENGTH){
@@ -197,7 +194,7 @@
                     }
                     
                     echo "<th><img class='head-image' data-player='". $entry["seller"] ."' data-name='". $entry["seller_name"] ."' src='img/loader.svg'><span class='name'></span></img></th>";
-                    echo "<th><img class='item-image' data-item='". $type ."' data-amount='". $amount ."' data-durability='". $durability ."' data-nbt='". $nbt ."' src='img/loader.svg'></img>".$name."</th>";
+                    echo "<th><img class='item-image' data-item='". $type ."' data-name='". $name ."' data-amount='". $amount ."' data-durability='". $durability ."' data-nbt='". $nbt ."' src='img/loader.svg'></img><span class='name ".(empty($name) ? "" : "done")."'>".(empty($name) ? "" : $name)."</span></th>";
 
                     if (count($lore) < 2){
                         echo "<th>Base Item</th>";

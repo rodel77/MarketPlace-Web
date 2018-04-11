@@ -2,13 +2,12 @@ var cache = {};
 document.addEventListener("DOMContentLoaded", function(){
     var images = document.querySelectorAll(".item-image");
 
-    for (var image of images) {
-        // console.log(items[images[i].dataset.item]);
-        var dataset = image.dataset;
+    for (var item of images) {
+        var dataset = item.dataset;
         var itemId = items[dataset.item].text_id;
         var cacheKey = itemId+"-"+dataset.durability;
 
-        image.classList.add(cacheKey);
+        item.classList.add(cacheKey);
         
         if(!cache.hasOwnProperty(cacheKey)){
             var endpoint = "https://api.wurstmineberg.de/v2/minecraft/items";
@@ -49,7 +48,9 @@ function loadItem(cacheKey, endpoint, displayName){
 
         for(var item of document.querySelectorAll("."+cacheKey)){
             item.src = "https://assets.wurstmineberg.de/img/grid/"+image;
-            item.parentElement.querySelector(".name").innerText = displayName;
+            if(!item.parentElement.querySelector(".name").classList.contains("done")){
+                item.parentElement.querySelector(".name").innerText = displayName;
+            }
         }
     });
 }

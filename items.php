@@ -1,25 +1,23 @@
 <?php
-    function getItemImage(){
-
-    }
     // MCGSoft Addition New Parsing NBT
     function getlore($nbt){
-    
-    preg_match("(({Lore:)\[(.*?)\])",$nbt,$firstmatch,PREG_OFFSET_CAPTURE);
-    preg_match_all('("(.*?)")',$firstmatch[2][0],$secondmatch);
+        preg_match("(({Lore:)\[(.*?)\])",$nbt,$firstmatch,PREG_OFFSET_CAPTURE);
 
-   
-    return $secondmatch[1];
+        if(sizeof($firstmatch)>2){
+            preg_match_all('("(.*?)")',$firstmatch[2][0],$secondmatch);
+            return $secondmatch[1];
+        }
+    
+        return array();
     }
+
     function getname($nbt){
+        preg_match('(Name:"(.*?)")',$nbt,$name,PREG_OFFSET_CAPTURE);
         
-         preg_match('(Name:"(.*?)")',$nbt,$name,PREG_OFFSET_CAPTURE);
-        
-        
-        return filtercolorcodes($name[1]);
+        return sizeof($name)<2 ? "" : filtercolorcodes($name[1])[0];
     }
     function filtercolorcodes($nbt){
-        return  preg_replace("(§[a-z,0-9])"," ",$nbt);
+        return  preg_replace("(§[a-z,0-9])","",$nbt);
     }
     function getMaxdurability($tools,$material) {
          foreach ($tools as $tool){
