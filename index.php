@@ -5,9 +5,16 @@
     <meta charset="UTF-8">
     <title>MarketPlace Web</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/tooltip.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
+
+    <div id="minetip-tooltip" style="display:none;">
+        <span class="name white"></span><br>
+        <span class="lore dark-purple italic"></span>
+    </div>
+
     <table class="table table-striped">
         <thead class="thead-dark">
             <th scope="col">Seller</th>
@@ -91,7 +98,7 @@
 
                     foreach ($lore as $line){
                         $res = filtercolorcodes($line);
-                        $loreparsed = $loreparsed . htmlspecialchars($res) . "</br>";
+                        $loreparsed = $loreparsed . htmlspecialchars($res) . "\n";
                     }
                   
                     if (strlen($loreparsed) > (int)MAX_LORE_LENGTH){
@@ -102,6 +109,7 @@
                     // Durability
                     if ($durability > 0 && $isTool){
                         $loreparsed = $loreparsed."Damaged: ".$durability;
+                        
                         if ($filter == 1){
                             $tooldurability = getMaxdurability($tools,$type);
                             $low = ($tooldurability / 100 * LOW_DURABILITY);
@@ -195,10 +203,8 @@
                             $thp = 1;
                     }
                     
-
                     echo "<th><img class='head-image' data-player='". $entry["seller"] ."' data-name='". $entry["seller_name"] ."' src='img/loader.svg'><span class='name'></span></img></th>";
-                    echo "<th><img class='item-image' data-tool='".($isTool ? "true" : "false")."' data-item='". $type ."' data-name='". $name ."' data-amount='". $amount ."' data-durability='". $durability ."' data-nbt='". $nbt ."' src='img/loader.svg'></img><span class='name ".(empty($name) ? "" : "done")."'>".(empty($name) ? "" : $name)."</span></th>";
-
+                    echo "<th><img onmouseenter='showTooltip(event)' onmouseleave='hideTooltip(event)' onmousemove='handleTooltip(event)' class='item-image' data-lore='".$loreparsed."' data-tool='".($isTool ? "true" : "false")."' data-item='". $type ."' data-name='". $name ."' data-amount='". $amount ."' data-durability='". $durability ."' data-nbt='". $nbt ."' src='img/loader.svg'></img><span class='name ".(empty($name) ? "" : "done")."'>".(empty($name) ? "" : $name)."</span></th>";
 
                     if(empty($loreparsed)){
                         echo "<th>Base Item</th>";
