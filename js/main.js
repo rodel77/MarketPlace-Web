@@ -74,7 +74,7 @@ function loadItem(cacheKey, endpoint, displayName){
         for(var item of document.querySelectorAll("."+cacheKey)){
             item.src = "https://assets.wurstmineberg.de/img/grid/"+image;
             if(!item.parentElement.querySelector(".name").classList.contains("done")){
-                item.parentElement.querySelector(".name").innerText = displayName;
+                // item.parentElement.querySelector(".name").innerText = displayName;
                 item.dataset.name = displayName;
             }
         }

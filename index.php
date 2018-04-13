@@ -18,37 +18,40 @@
     <table class="table table-striped">
         <thead class="thead-dark">
             <th scope="col">Seller</th>
-            <th scope="col">Name</th>
-            <th scope="col">Details</th>
+            <th scope="col">Item</th>
+            <!-- <th scope="col">Details</th> -->
             <th scope="col">Amount</th>
             <th scope="col">Price</th>
             <th scope="col">Published</th>
-            <th scope="col"><form class="form-inline" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-            
-            <label class="col-md-4 control-label" for="filteroptions">Filters</label>
-              <select value='<? echo $_GET["filteroptions"]; ?>' id="filteroptions" name="filteroptions" class="form-control form-control-sm">
-              <option value="0">None</option>
-              <option value="1">Damaged Items</option>
-              <option value="2">Tools and Weapons</option>
-              <option value="3">Price Below Target</option>
-              <option value="4">Price Above Target</option>
-              <option value="5">Single Item</option>
-              <option value="6">0-16 Items</option>
-              <option value="7">16-32 Items</option>
-              <option value="8">32-48 Items</option>
-              <option value="9">48-64 Items</option>
-              <option value="10">Full Stacks</option>
-            </select> ~ 
-            
-            
-              <input id="pricetarget" name="pricetarget" value='<? echo $_GET["pricetarget"]; ?>' placeholder="0.00" class="form-control form-control-sm" type="text"> ~ 
+            <th scope="col">
+                <form class="form-inline" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                 
+                <?php $selectedFilter = isset($_GET["filteroptions"]) ? $_GET["filteroptions"] : "0"; ?>
+
+                <label class="col-md-4 control-label" for="filteroptions">Filters</label>
+                <select id="filteroptions" name="filteroptions" class="form-control form-control-sm">
+                    <option value="0" <?php echo $selectedFilter==0 ? "selected" : "";?>>None</option>
+                    <option value="1" <?php echo $selectedFilter==1 ? "selected" : "";?>>Damaged Items</option>
+                    <option value="2" <?php echo $selectedFilter==2 ? "selected" : "";?>>Tools and Weapons</option>
+                    <option value="3" <?php echo $selectedFilter==3 ? "selected" : "";?>>Price Below Target</option>
+                    <option value="4" <?php echo $selectedFilter==4 ? "selected" : "";?>>Price Above Target</option>
+                    <option value="5" <?php echo $selectedFilter==5 ? "selected" : "";?>>Single Item</option>
+                    <option value="6" <?php echo $selectedFilter==6 ? "selected" : "";?>>0-16 Items</option>
+                    <option value="7" <?php echo $selectedFilter==7 ? "selected" : "";?>>16-32 Items</option>
+                    <option value="8" <?php echo $selectedFilter==8 ? "selected" : "";?>>32-48 Items</option>
+                    <option value="9" <?php echo $selectedFilter==9 ? "selected" : "";?>>48-64 Items</option>
+                    <option value="10" <?php echo $selectedFilter==10 ? "selected" : "";?>>Full Stacks</option>
+                </select> 
                 
-                  
-              <button type="submit" class="btn btn-primary">Apply</button>
-           
-              </form>
-              </th>
+                &nbsp;&nbsp;
+
+                <input id="pricetarget" name="pricetarget" value='<?php echo isset($_GET["pricetarget"]) ? $_GET["pricetarget"] : ""; ?>' placeholder="0.00" class="form-control form-control-sm" type="text">
+
+                &nbsp;&nbsp;
+
+                <button type="submit" class="btn btn-primary">Apply</button>
+                </form>
+            </th>
         </thead>
         <tbody>
             <?php
@@ -204,13 +207,13 @@
                     }
                     
                     echo "<th><img class='head-image' data-player='". $entry["seller"] ."' data-name='". $entry["seller_name"] ."' src='img/loader.svg'><span class='name'></span></img></th>";
-                    echo "<th><img onmouseenter='showTooltip(event)' onmouseleave='hideTooltip(event)' onmousemove='handleTooltip(event)' class='item-image' data-lore='".$loreparsed."' data-tool='".($isTool ? "true" : "false")."' data-item='". $type ."' data-name='". $name ."' data-amount='". $amount ."' data-durability='". $durability ."' data-nbt='". $nbt ."' src='img/loader.svg'></img><span class='name ".(empty($name) ? "" : "done")."'>".(empty($name) ? "" : $name)."</span></th>";
+                    echo "<th><img onmouseenter='showTooltip(event)' onmouseleave='hideTooltip(event)' onmousemove='handleTooltip(event)' class='item-image' data-lore='".$loreparsed."' data-tool='".($isTool ? "true" : "false")."' data-item='". $type ."' data-name='". $name ."' data-amount='". $amount ."' data-durability='". $durability ."' data-nbt='". $nbt ."' src='img/loader.svg'></img><span class='name ".(empty($name) ? "" : "done")."'></span></th>";
 
-                    if(empty($loreparsed)){
-                        echo "<th>Base Item</th>";
-                    }else {
-                        echo "<th>".$loreparsed."</th>";
-                    }
+                    // if(empty($loreparsed)){
+                    //     echo "<th>Base Item</th>";
+                    // }else {
+                    //     echo "<th>".$loreparsed."</th>";
+                    // }
 
                     echo "<th>".$amount."</th>";
                     echo "<th>$". $price ."</th>";

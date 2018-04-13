@@ -16,19 +16,20 @@
         
         return sizeof($name)<2 ? "" : filtercolorcodes($name[1])[0];
     }
+
     function filtercolorcodes($nbt){
         return  preg_replace("(§[a-z,0-9])","",$nbt);
     }
+
     function getMaxdurability($tools,$material) {
-         foreach ($tools as $tool){
+        foreach ($tools as $tool){
             $exp = explode('#',$tool);
-                if ($material == $exp[0]){
-                    return $exp[1];
-                }
-            
-         }
-         return 0;
-                
+            if ($material == $exp[0]){
+                return $exp[1];
+            }
+        }
+        
+        return 0;
     }
     
     function isTool($tools, $material) {

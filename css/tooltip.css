@@ -3,6 +3,12 @@
     src: url("font/Minecraft.ttf");
 }
 
+.item-image {
+    background: url("../img/item-background.png");
+    background-size: cover;
+    padding: 10px;
+}
+
 #minetip-tooltip {
     position: fixed;
     top: 0;
