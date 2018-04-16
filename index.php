@@ -198,7 +198,7 @@
                 
                     if ($amount > 1){
                         $peritem = ($price / $amount);
-                        $price = $price." ($".$peritem." Per Item)";
+                        $price = $price." ($".number_format($peritem, 2)." Per Item)";
                     }
         
                     if ($thp == 0){
