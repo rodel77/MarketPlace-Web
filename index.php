@@ -206,8 +206,21 @@
                             $thp = 1;
                     }
                     
+                    if (SHOWSKULL && ($type == "PLAYERHEAD" || $type == "SKULL" || $type == "SKULL_ITEM") && $durability == 3){
+                            $texturedata = ConvertTextureData($nbt);
+                            if (empty($name)){
+                                $imgs = getimgtodb($texturedata,$type);
+                            }else {
+                                $imgs = getimgtodb($texturedata,$name); 
+                            }
+                            $img = "/SkullParser.php?u=".$imgs;
+                            $imgdata = "<th><img onmouseenter='showTooltip(event)' onmouseleave='hideTooltip(event)' onmousemove='handleTooltip(event)' class='image-skull' data-lore='".$loreparsed."' data-tool='".($isTool ? "true" : "false")."' data-name='". $name ."' src='".$img."'></img><span class='name ".(empty($name) ? "" : "done")."'></span></th>";
+                    }else {
+                        $imgdata = "<th><img onmouseenter='showTooltip(event)' onmouseleave='hideTooltip(event)' onmousemove='handleTooltip(event)' class='item-image' data-lore='".$loreparsed."' data-tool='".($isTool ? "true" : "false")."' data-item='". $type ."' data-name='". $name ."' data-amount='". $amount ."' data-durability='". $durability ."' data-nbt='". $nbt ."' src='img/loader.svg'></img><span class='name ".(empty($name) ? "" : "done")."'></span></th>";
+                    }
+                    
                     echo "<th><img class='head-image' data-player='". $entry["seller"] ."' data-name='". $entry["seller_name"] ."' src='img/loader.svg'><span class='name'></span></img></th>";
-                    echo "<th><img onmouseenter='showTooltip(event)' onmouseleave='hideTooltip(event)' onmousemove='handleTooltip(event)' class='item-image' data-lore='".$loreparsed."' data-tool='".($isTool ? "true" : "false")."' data-item='". $type ."' data-name='". $name ."' data-amount='". $amount ."' data-durability='". $durability ."' data-nbt='". $nbt ."' src='img/loader.svg'></img><span class='name ".(empty($name) ? "" : "done")."'></span></th>";
+                    echo $imgdata;
 
                     // if(empty($loreparsed)){
                     //     echo "<th>Base Item</th>";
