@@ -12,8 +12,10 @@
     }
 
     function getname($nbt){
-        preg_match('(Name:"(.*?)")',$nbt,$name,PREG_OFFSET_CAPTURE);
-        
+        preg_match('({Name:"(.*?)")',$nbt,$name,PREG_OFFSET_CAPTURE);
+        if (empty($name)){
+            preg_match('(Name:"(.*?)")',$nbt,$name,PREG_OFFSET_CAPTURE);
+        }
         return sizeof($name)<2 ? "" : filtercolorcodes($name[1])[0];
     }
 
@@ -28,7 +30,6 @@
                 return $exp[1];
             }
         }
-        
         return 0;
     }
     
@@ -52,15 +53,13 @@
         } 
     }
     function ConvertTextureData($nbt){
-        preg_match('(Value:"(.*?)")',$nbt,$texturedata,PREG_OFFSET_CAPTURE);
-        if (empty($texturedata[1][0])){
             preg_match('(Value:"(.*?)")',$nbt,$texturedata,PREG_OFFSET_CAPTURE);
             $decoded = base64_decode($texturedata[1][0]);
             preg_match('(url":"(.*?)")',$decoded,$textureurl,PREG_OFFSET_CAPTURE);
-        }else {
-            
+         if (empty($textureurl)){
             $decoded = base64_decode($texturedata[1][0]);
             preg_match('(url:"(.*?)")',$decoded,$textureurl,PREG_OFFSET_CAPTURE); 
+           
         }
        
         return $textureurl[1][0];
