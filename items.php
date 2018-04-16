@@ -42,4 +42,19 @@
 
         return false;
     }
+        // MCGSoft Addition New SkullBuilder from NBT
+    function getimgtodb($url,$name){
+        if (file_exists('imgcache/'.$name.'.png')){
+            return $name.'.png';
+        }else {
+            copy($url, 'imgcache/'.$name.'.png');
+            return $name.'.png';
+        } 
+    }
+    function ConvertTextureData($nbt){
+        preg_match('(Value:"(.*?)")',$nbt,$texturedata,PREG_OFFSET_CAPTURE);
+        $decoded = base64_decode($texturedata[1][0]);
+        preg_match('(url:"(.*?)")',$decoded,$textureurl,PREG_OFFSET_CAPTURE);
+        return $textureurl[1][0];
+    }
 ?>

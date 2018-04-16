@@ -8,6 +8,11 @@
     background-size: cover;
     padding: 10px;
 }
+.image-skull {
+    background: url("../img/item-background.png");
+    background-size: cover;
+    padding: 10px;
+}
 
 #minetip-tooltip {
     position: fixed;

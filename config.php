@@ -10,4 +10,5 @@
     define("LOW_DURABILITY", 25);
     define("MID_DURABILITY", 50);
     define("GOOD_DURABILITY", 75);
+    define("SHOWSKULL", true);
 ?>
