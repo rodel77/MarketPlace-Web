@@ -10,6 +10,8 @@
 </head>
 <body>
 
+    <!-- <div class="item-image"><div class="test"></div></div> -->
+
     <div id="minetip-tooltip" style="display:none;">
         <span class="name white"></span><br>
         <span class="lore dark-purple italic"></span>
@@ -208,13 +210,18 @@
                     
                     if (SHOWSKULL && ($type == "PLAYERHEAD" || $type == "SKULL" || $type == "SKULL_ITEM") && $durability == 3){
                             $texturedata = ConvertTextureData($nbt);
-                            if (empty($name)){
-                                $imgs = getimgtodb($texturedata,$type);
-                            }else {
-                                $imgs = getimgtodb($texturedata,$name); 
-                            }
-                            $img = "/SkullParser.php?u=".$imgs;
-                            $imgdata = "<th><img onmouseenter='showTooltip(event)' onmouseleave='hideTooltip(event)' onmousemove='handleTooltip(event)' class='image-skull' data-lore='".$loreparsed."' data-tool='".($isTool ? "true" : "false")."' data-name='". $name ."' src='".$img."'></img><span class='name ".(empty($name) ? "" : "done")."'></span></th>";
+                            // if (empty($name)){
+                            //     $imgs = getimgtodb($texturedata,$type);
+                            // }else {
+                            //     $imgs = getimgtodb($texturedata,$name); 
+                            // }
+                            // $img = "/SkullParser.php?u=".$imgs;
+                            
+                            $imgdata = "<th>
+                                            <div onmouseenter='showTooltip(event)' onmouseleave='hideTooltip(event)' onmousemove='handleTooltip(event)' class='item-image' data-lore='".$loreparsed."' data-tool='".($isTool ? "true" : "false")."' data-item='".$type."' data-name='".$name."' data-durability='". $durability ."'> 
+                                                <div style='background-image: url(\"".$texturedata."\");' class='image-skull'></div>
+                                            </div>
+                                        </th>";
                     }else {
                         $imgdata = "<th><img onmouseenter='showTooltip(event)' onmouseleave='hideTooltip(event)' onmousemove='handleTooltip(event)' class='item-image' data-lore='".$loreparsed."' data-tool='".($isTool ? "true" : "false")."' data-item='". $type ."' data-name='". $name ."' data-amount='". $amount ."' data-durability='". $durability ."' data-nbt='". $nbt ."' src='img/loader.svg'></img><span class='name ".(empty($name) ? "" : "done")."'></span></th>";
                     }

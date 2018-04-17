@@ -7,11 +7,16 @@
     background: url("../img/item-background.png");
     background-size: cover;
     padding: 10px;
+    width: 52px;
+    height: 52px;
 }
+
 .image-skull {
-    background: url("../img/item-background.png");
-    background-size: cover;
-    padding: 10px;
+    background-size: 800%;
+    background-position: -32px -32px;
+    image-rendering: pixelated;
+    width: 100%;
+    height: 100%;
 }
 
 #minetip-tooltip {
