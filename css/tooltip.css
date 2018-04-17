@@ -36,14 +36,84 @@
     z-index: 9999
 }
 
-.white {
-    color: #FFF;
-    text-shadow: 0.125em 0.125em 0 #3F3F3F;
+.black {
+    color: #000000;
+    text-shadow: 0.125em 0.125em 0 #000000;
+}
+
+.dark-blue {
+    color: #0000AA;
+    text-shadow: 0.125em 0.125em 0 #00002A;
+}
+
+.dark-green {
+    color: #00AA00;
+    text-shadow: 0.125em 0.125em 0 #002A00;
+}
+
+.dark-aqua {
+    color: #00AAAA;
+    text-shadow: 0.125em 0.125em 0 #002A2A;
+}
+
+.dark-red {
+    color: #AA0000;
+    text-shadow: 0.125em 0.125em 0 #2A0000;
 }
 
 .dark-purple {
     color: #AA00AA;
     text-shadow: 0.125em 0.125em 0 #2A002A;
+}
+
+.gold {
+    color: #FFAA00;
+    text-shadow: 0.125em 0.125em 0 #2A2A00;
+}
+
+.gray {
+    color: #AAAAAA;
+    text-shadow: 0.125em 0.125em 0 #2A2A2A;
+}
+
+.drak-gray {
+    color: #555555;
+    text-shadow: 0.125em 0.125em 0 #151515;
+}
+
+.blue {
+    color: #5555FF;
+    text-shadow: 0.125em 0.125em 0 #15153F;
+}
+
+.green {
+    color: #55FF55;
+    text-shadow: 0.125em 0.125em 0 #153F15;
+}
+
+.aqua {
+    color: #55FFFF;
+    text-shadow: 0.125em 0.125em 0 #153F3F;
+}
+
+.red {
+    color: #FF5555;
+    text-shadow: 0.125em 0.125em 0 #3F1515;
+}
+
+.light-purple {
+    color: #FF55FF;
+    text-shadow: 0.125em 0.125em 0 #2F153F;
+}
+
+.yellow {
+    color: #FFFF55;
+    text-shadow: 0.125em 0.125em 0 #3F3F15;
+}
+
+.white {
+    color: #FFF;
+    text-shadow: 0.125em 0.125em 0 #3F3F3F;
 }
 
 .italic {
