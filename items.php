@@ -16,10 +16,10 @@
         if (empty($name)){
             preg_match('(Name:"(.*?)")',$nbt,$name,PREG_OFFSET_CAPTURE);
         }
-        return sizeof($name)<2 ? "" : filtercolorcodes($name[1])[0];
+        return sizeof($name)<2 ? "" : stripColors($name[1])[0];
     }
 
-    function filtercolorcodes($nbt){
+    function stripColors($nbt){
         return  preg_replace("(§[a-z,0-9])","",$nbt);
     }
 
@@ -43,23 +43,21 @@
 
         return false;
     }
-        // MCGSoft Addition New SkullBuilder from NBT
-    function getimgtodb($url,$name){
-        if (file_exists('imgcache/'.$name.'.png')){
-            return $name.'.png';
-        }else {
-            copy($url, 'imgcache/'.$name.'.png');
-            return $name.'.png';
-        } 
-    }
+
+    // MCGSoft Addition New SkullBuilder from NBT
     function ConvertTextureData($nbt){
-            preg_match('(Value:"(.*?)")',$nbt,$texturedata,PREG_OFFSET_CAPTURE);
-            $decoded = base64_decode($texturedata[1][0]);
-            preg_match('(url":"(.*?)")',$decoded,$textureurl,PREG_OFFSET_CAPTURE);
-         if (empty($textureurl)){
+        preg_match('(Value:"(.*?)")',$nbt,$texturedata,PREG_OFFSET_CAPTURE);
+
+        if(sizeof($texturedata)<2){
+            return "http://assets.mojang.com/SkinTemplates/steve.png";
+        }
+
+        $decoded = base64_decode($texturedata[1][0]);
+        preg_match('(url":"(.*?)")',$decoded,$textureurl,PREG_OFFSET_CAPTURE);
+
+        if (empty($textureurl)){
             $decoded = base64_decode($texturedata[1][0]);
             preg_match('(url:"(.*?)")',$decoded,$textureurl,PREG_OFFSET_CAPTURE); 
-           
         }
        
         return $textureurl[1][0];
