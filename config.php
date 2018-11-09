@@ -4,6 +4,7 @@
     define("DB_PASSWORD", "localito");
     define("DB_DATABASE", "mc");
     define("DB_TABLE_CATALOG", "catalog");
+    define("DB_TABLE_ACCOUNTS", "webaccounts");
     define("ITEMS_PER_PAGE", 10);
     define("MAX_LORE_LENGTH", 100);
     define("MAX_NAME_LENGTH", 25);

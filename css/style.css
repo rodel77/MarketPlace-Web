@@ -1,0 +1,14 @@
+.vertical-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+body {
+    background-image: url("../img/stock-img.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
