@@ -7,7 +7,7 @@ Report issues: https://github.com/rodel77/MarketPlace-Web/issues
 ## Requirements:
 + MarketPlace Resource (Using MySQL)
 + PHP <= 7.0.0
-+ mysqli extension enabled
++ PDO extension enabled
 
 ## How to install:
 + Download and copy the files into the folder you want to put the page https://github.com/rodel77/MarketPlace-Web/releases
