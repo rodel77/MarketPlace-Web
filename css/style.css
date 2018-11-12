@@ -12,3 +12,85 @@ body {
     background-size: 100%;
     background-repeat: no-repeat;
 }
+
+/* .pixel-image, .invslot-item-image, .sprite {
+    image-rendering: optimizeSpeed;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
+} */
+
+.inv-sprite {
+    display: inline-block;
+    vertical-align: text-top;
+    height: 16px;
+    width: 16px;
+    background-repeat: no-repeat;
+
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+    
+    image-rendering: optimizeSpeed;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
+
+    background-image: url(https://c-4tvylwolbz88x24k8b2w0s1dwhf0rx2ejsvbkmyvuax2eula.g00.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2fk8b2w0s1dwhf0r.jsvbkmyvua.ulax2ftpuljyhma_nhtlwlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);
+    background-position: -320px -1024px;
+}
+
+.invslot-item,.invslot-item > a:first-child {
+    position: relative;
+    display: block;
+    margin: -2px;
+    padding: 2px;
+    width: 36px;
+    height: 36px;
+}
+
+.inventory{
+    text-align: center;
+    display:block;
+}
+
+.invslot {
+    position: relative;
+    display: inline-block;
+    background: #8B8B8B no-repeat center center / 32px 32px;
+    border: 2px solid;
+    border-color: #373737 #FFF #FFF #373737;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    line-height: 1;
+    text-align: left;
+    vertical-align: bottom;
+}
+
+.invslot::before,.invslot::after {
+    content: "";
+    position: absolute;
+    background-color: #8B8B8B;
+    height: 2px;
+    width: 2px;
+    pointer-events: none;
+}
+
+.invslot::before {
+    bottom: -2px;
+    left: -2px;
+}
+
+.invslot::after {
+    top: -2px;
+    right: -2px;
+}

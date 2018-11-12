@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <?php 
     define("PAGE", "Login");
+    define("CONTEXT", "login");
     include("head.php");
-    include("src/db_manager.php");
-    include("src/accounts.php");
-    include("src/session_manager.php");
     ses_start();
     validate_session();
     if($GLOBALS["logged"]){
