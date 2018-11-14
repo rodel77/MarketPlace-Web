@@ -4,6 +4,7 @@
     include("src/accounts.php");
     include("src/listings.php");
     include("src/session_manager.php");
+    include("src/items.php");
 ?>
 
 <head>

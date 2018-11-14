@@ -7,17 +7,30 @@
     validate_session();
 ?>
 <body>
+    <div id="minetip-tooltip" style="display:none;">
+        <span class="name"></span><br>
+        <span class="lore"></span>
+        <hr style="color:white;">
+        <span>asd</span>
+    </div>
+    <script src="items/bukkit2icon.js"></script>
+    <script src="js/index.js"></script>
+
     <?php include("nav.php") ?>
 
-    <!-- <div class="container" style="height:100vh;">
+    <div class="container" style="height:100vh;">
         <div class="col col-12">
-            <div class="inventory bg-danger"> -->
+            <div class="inventory">
+                
+                <div class="title">Latest Items</div>
                 <!-- <div class="container">
                     <div class="col col-1"> -->
                         <!-- <div class="slot"> -->
-                        <div>
-                        <span class="invslot"><span class="invslot-item"><span class="inv-sprite"><br></span></span></span><span class="invslot"><span class="invslot-item"><span class="inv-sprite"><br></span></span></span><span class="invslot"><span class="invslot-item"><span class="inv-sprite"><br></span></span></span>
-                        </div>
+                        <!-- <span class="invslot"><span class="invslot-item"><span class="inv-sprite" data-bukkit="DIAMOND_SWORD" data-id="1176" data-durability="0" data-head="" data-name="<b>hey!</b>" data-lore="0"><span class="amount">2<br></span></span></span></span> -->
+
+                        <?php
+                            fetch_main();
+                        ?>
 
                         <!-- <div>
                             <span class="invslot">
@@ -66,7 +79,7 @@
                         </tr>
                     </tbody>
             </table> -->
-        <!-- </div>
-    </div> -->
+        </div>
+    </div>
 </body>
 </html>

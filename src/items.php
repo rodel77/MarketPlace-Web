@@ -16,7 +16,7 @@
         if (empty($name)){
             preg_match('(Name:"(.*?)")',$nbt,$name,PREG_OFFSET_CAPTURE);
         }
-        return sizeof($name)<2 ? "" : stripColors($name[1])[0];
+        return sizeof($name)<2 ? "" : $name[1][0];
     }
 
     function stripColors($nbt){
@@ -49,7 +49,7 @@
         preg_match('(Value:"(.*?)")',$nbt,$texturedata,PREG_OFFSET_CAPTURE);
 
         if(sizeof($texturedata)<2){
-            return "http://assets.mojang.com/SkinTemplates/steve.png";
+            return "";
         }
 
         $decoded = base64_decode($texturedata[1][0]);

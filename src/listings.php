@@ -64,19 +64,45 @@
         return 0;
     }
 
+    function fetch_main(){
+        $connection = db_connect();
+        $sql = "select * from `".DB_TABLE_CATALOG."` where `buyer` is null and `cancelled`=0 and (`expire_time`>NOW() or `expire_time` is null) order by `publish_date` DESC limit 20";
+        $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $ps->execute();
+        $result = $ps->fetchAll();
+
+        foreach ($result as $key => $value) {
+            $name = htmlspecialchars(getname($value["item_nbt"]));
+            $lore = getlore($value["item_nbt"]);
+            $lore_count = count($lore);
+            $lore_data = array();
+            $head = ConvertTextureData($value["item_nbt"]);
+
+            foreach($lore as $idx=>$line){
+                array_push($lore_data, 'data-lore-'.$idx.'="'.htmlspecialchars($line).'"');
+            }
+
+            echo '<span class="invslot" onmouseenter="showTooltip(event)" onmouseleave="hideTooltip(event)" onmousemove="handleTooltip(event)" onload="item_loaded"><span class="invslot-item"><span class="inv-sprite" data-bukkit="'.$value["item_type"].'" data-id="'.$value["id"].'" data-durability="'.$value["item_durability"].'" data-amount="'.$value["item_amount"].'" data-head="'.$head.'" data-name="'.$name.'" data-lore="'.$lore_count.'" '.implode(" ", $lore_data).'"><br></span></span></span>';
+        }
+    }
+
     function parse_color($text){
         $final_html = "";
         $skip = false;
 
         $special = "";
+        $color = "";
 
         for ($i = 0; $i < strlen($text); $i++){
             $char = $text[$i];
 
-            if($char=="&" && $i<strlen($text)-1){
+            if($char=="@" && $i<strlen($text)-1){
                 $code = strtolower($text[$i+1]);
-
+                
                 if(preg_match("/[a-f,k-r,0-9]/", $code)){
+                    if(preg_match("/[a-f,0-9]/", $code)){
+                        $final_html = "<span class='color-$code'>";
+                    }
 
                     if($code=="l"){
                         if(!empty($special)){
@@ -99,7 +125,6 @@
             // echo $char;
             $final_html .= $char;
         }
-        echo "<br>";
         return $final_html;
     }
 ?>

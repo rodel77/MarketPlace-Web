@@ -1,3 +1,8 @@
+@font-face {
+    font-family: MineFont;
+    src: url("font/Minecraft.ttf");
+}
+
 .vertical-center {
     display: flex;
     flex-direction: column;
@@ -10,7 +15,19 @@
 body {
     background-image: url("../img/stock-img.jpg");
     background-size: 100%;
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
+}
+
+.image-skull {
+    background-size: 800%;
+    background-position: -32px -32px;
+    image-rendering: pixelated;
+    width: 100%;
+    height: 100%;
+}
+
+.mc-font {
+    font-family: MineFont,sans-serif;
 }
 
 /* .pixel-image, .invslot-item-image, .sprite {
@@ -22,6 +39,49 @@ body {
     image-rendering: crisp-edges;
     image-rendering: pixelated;
     -ms-interpolation-mode: nearest-neighbor;
+} */
+
+.durability-bar {
+    position: relative;
+    display: inline-block;
+    left: 3px;
+    top: 26px;
+    width: 26px;
+    height: 4px;
+    background-color: black;
+    z-index: 4;
+}
+
+.durability {
+    position: relative;
+    display: inline-block;
+    width: 26px;
+    height: 2px;
+    background-color: rgb(0, 255, 0);
+    z-index: 4;
+}
+
+.amount{
+    display: inline-block;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    color: white;
+    text-shadow: 0.125em 0.125em 0 #3F3F3F;
+    font-family: MineFont,sans-serif;
+    text-align: right;
+    top: 1.1rem;
+    left: 1px;
+    pointer-events: none;
+}
+
+/* .durability::before {
+    background-color: rgb(0, 255, 0);
+    content: " ";
+    z-index: 3;
+    width: 26px;
+    height: 2px;
+    position: absolute;
 } */
 
 .inv-sprite {
@@ -44,8 +104,8 @@ body {
     image-rendering: pixelated;
     -ms-interpolation-mode: nearest-neighbor;
 
-    background-image: url(https://c-4tvylwolbz88x24k8b2w0s1dwhf0rx2ejsvbkmyvuax2eula.g00.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2fk8b2w0s1dwhf0r.jsvbkmyvua.ulax2ftpuljyhma_nhtlwlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);
-    background-position: -320px -1024px;
+    /* background-image: url(https://c-4tvylwolbz88x24k8b2w0s1dwhf0rx2ejsvbkmyvuax2eula.g00.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2fk8b2w0s1dwhf0r.jsvbkmyvua.ulax2ftpuljyhma_nhtlwlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$); */
+    /* background-position: -320px -1024px; */
 }
 
 .invslot-item,.invslot-item > a:first-child {
@@ -60,6 +120,20 @@ body {
 .inventory{
     text-align: center;
     display:block;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #c6c6c6;
+    border-radius: 5px;
+    border: 4px solid;
+    border-color: #fff #555 #555 #fff;
+    box-shadow: 0 0 0 2pt black;
+}
+
+.inventory > .title {
+    text-align: left;
+    font-family: MineFont,sans-serif;
+    margin-left: 10px;
+    font-size: 1rem;
 }
 
 .invslot {
