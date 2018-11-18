@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php 
-    define("PAGE", "Main");
-    define("CONTEXT", "main");
+    define("PAGE", "Listing Details");
+    define("CONTEXT", "listing");
     include("head.php");
     ses_start();
     validate_session();
@@ -18,19 +18,65 @@
 
     <?php include("nav.php") ?>
 
-    <div class="container-fluid" style="height:100vh;">
+    <div class="container" style="height:100vh;">
         <div class="col col-12">
-            <div class="inventory">
+            <div class="listing">
                 
-                <div class="title">Latest Items</div>
                 <!-- <div class="container">
                     <div class="col col-1"> -->
                         <!-- <div class="slot"> -->
                         <!-- <span class="invslot"><span class="invslot-item"><span class="inv-sprite" data-bukkit="DIAMOND_SWORD" data-id="1176" data-durability="0" data-head="" data-name="<b>hey!</b>" data-lore="0"><span class="amount">2<br></span></span></span></span> -->
 
                         <?php
-                            fetch_main();
+                            if(isset($_GET["id"])){
+                                $listing = find_item_by_id($_GET["id"]);
+
+                                if(count($listing)==0){
+                                    header("Location: ../");
+                                }else{
+                                    $listing = $listing[0];
+                                    if(getname($listing["item_nbt"])==""){
+                                        ?>
+                                        <span class="title bukkit2name color-f"><?php echo $listing["item_type"]; ?></span>
+                                        <?php
+                                    }else{
+                                        ?>
+                                        <span class="title colorize"><?php echo htmlspecialchars(getname($listing["item_nbt"])); ?></span>
+                                        <?php
+                                    }
+                                    ?>
+                                <?php }
+                            }else{
+                                header("Location: ../");
+                            }
+                            // fetch_main();
                         ?>
+
+                        <hr style="border-top-width:2px;">
+
+                        <div class="container">
+                            <div class="row align-items-center details">
+                                <div class="col col-4 col-lg-3">
+                                    <?php
+                                        echo get_item($listing);
+                                    ?>
+                                </div>
+                                <div class="col col-8 col-lg-9 lore">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr style="border-top-width:2px;">
+
+                        <div class="listing-info">
+                            <span class="color-f minefont">Seller: <a href="/profile.php?user=<?php echo $listing["seller"]; ?>" class="color-6 color-n"><?php echo $listing["seller_name"]; ?> <img src="http://cravatar.eu/avatar/<?php echo $listing["seller"]; ?>/32.png"></span></span></a>
+                            <span class="color-f minefont">Published: <span class="date-moment color-6"><?php echo $listing["publish_date"]; ?></span></span>
+                            <form action="./purchase.php" method="POST">
+                                <input type="hidden" name="id" value="<?php echo $listing["id"]; ?>">
+                                <button type="submit" class="btn btn-success color-f minefont">Order</button>
+                            </form>
+                            <!-- <span>Seller: asd</span> -->
+                        </div>
 
                         <!-- <div>
                             <span class="invslot">

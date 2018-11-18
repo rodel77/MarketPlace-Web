@@ -6,6 +6,8 @@
     ses_start();
     validate_session();
 
+    $selfaccount = false;
+
     if(isset($_GET["user"])){
         $userp = $_GET["user"];
 
@@ -29,8 +31,6 @@
         $u_uuid = $webaccount->uuid;
         $u_name = $webaccount->name;
     }
-
-
 ?>
 <body>
     <?php include("nav.php") ?>
@@ -38,52 +38,30 @@
 <div class="container my-5">
     <div class="row align-items-center justify-content-center">
         <div class="col col-10">
-            <div class="card bg-dark text-light">
+            <div class="card bg-inventory text-light">
                 <div class="card-body">
                     <?php if(empty($u_uuid)) { ?>
-                        <h2 class="text-center">User not found</h2>
-                        <h4 class="text-center text-white-50">This user haven't used the market or created an account</h4>
+                        <h2 class="text-center color-f minefont">User not found</h2>
+                        <h4 class="text-center color-6 minefont">This user haven't used the market or created an account</h4>
                     <?php } else { ?>
 
-                    <h3 class="card-title"><img src="https://cravatar.eu/avatar/<?php echo $u_uuid; ?>/32.png"> <?php echo $u_name; ?></h3>
+                    <h3 class="card-title color-a minefont"><img src="https://cravatar.eu/avatar/<?php echo $u_uuid; ?>/32.png"> <?php echo $u_name; ?></h3>
                     <hr>
 
                     <?php if($selfaccount && $pending_claims>0){ ?>
-                    <div class="alert alert-success" role="alert">You have <?php echo $pending_claims; ?> items pending to claim ingame</div>
+                    <div class="alert alert-success color-a minefont" role="alert">You have <?php echo $pending_claims; ?> items pending to claim ingame</div>
                     <?php } ?>
 
-                    <h5>Web Account: <?php if($webaccount->uuid){ ?> <i class="fas fa-check text-success"></i> <?php }else{ ?> <i class="fas fa-times text-danger"></i> <?php } ?></h5>
+                    <h5 class="color-6 minefont">Web Account: <?php if($webaccount->uuid){ ?> <span class="color-a minefont">✔</span> <?php }else{ ?> <span class="color-4 minefont">✖</span> <?php } ?></h5>
                     <?php if($webaccount->uuid){ ?>
-                    <h5>Wallet: <?php echo $webaccount->money; ?></h5>
+                    <h5 class="color-6 minefont">Wallet: <span class="color-a minefont"><?php echo $webaccount->money; ?></span></h5>
                     <?php } ?>
 
                     <hr>
 
-                    <h5>Items on sale: <?php echo items_on_sale($u_uuid); ?></h5>
-                    <h5>Items sold: <?php echo items_sold($u_uuid); ?></h5>
-                    <h5>Items purchased: <?php echo items_purchased($u_uuid); ?></h5>
-
-                    <hr>
-
-                    <b>Wallet:</b> <?php echo $GLOBALS["profile"]->money; ?>
-
-                    <br>
-
-                    
-                    <?php
-                        $connection = db_connect();
-                        $sql = "select count(*) from `".DB_TABLE_CATALOG."` where `seller` = :uuid";
-                        $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-                        $ps->execute(array(":uuid"=>$GLOBALS["profile"]->uuid));
-                        $result = $ps->fetchAll();
-                        print_r(var_dump($result));
-                    
-                        // $text = "Hey ñ &c&lred&3 &iyou!&";
-
-                        // echo $text."<br>";
-                        // echo parse_color($text);
-                    ?>
-
+                    <h5 class="color-6 minefont">Items on sale: <span class="color-a minefont"> <?php echo items_on_sale($u_uuid); ?></span></h5>
+                    <h5 class="color-6 minefont">Items sold: <span class="color-a minefont"> <?php echo items_sold($u_uuid); ?></span></h5>
+                    <h5 class="color-6 minefont">Items purchased: <span class="color-a minefont"> <?php echo items_purchased($u_uuid); ?></span></h5>
                     <?php } ?>
                 </div>
             </div>

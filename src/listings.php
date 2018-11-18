@@ -24,6 +24,14 @@
         return null;
     }
 
+    function find_item_by_id($id){
+        $connection = db_connect();
+        $sql = "select * from `".DB_TABLE_CATALOG."` where `id` = :id limit 1";
+        $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $ps->execute(array(":id"=>$id));
+        return $ps->fetchAll();
+    }
+
     function items_on_sale($uuid){
         $connection = db_connect();
         $sql = "select count(*) from `".DB_TABLE_CATALOG."` where `seller` = :uuid and `buyer` is null and `cancelled`=0 and (`expire_time`>NOW() or `expire_time` is null)";
@@ -64,6 +72,19 @@
         return 0;
     }
 
+    function get_item($query){
+        $nbt = $query["item_nbt"];
+        $lore = getlore($nbt);
+        $lore_data = array();
+        $head = ConvertTextureData($nbt);
+
+        foreach($lore as $idx=>$line){
+            array_push($lore_data, 'data-lore-'.$idx.'="'.htmlspecialchars($line).'"');
+        }
+
+        return str_replace("\n", "", str_replace("   ", "", '<a href="listing.php?id='.$query["id"].'" class="invslot" onmouseenter="showTooltip(event)" onmouseleave="hideTooltip(event)" onmousemove="handleTooltip(event)" onload="item_loaded"><span class="invslot-item"><span class="inv-sprite" data-bukkit="'.$query["item_type"].'" data-id="'.$query["id"].'" data-durability="'.$query["item_durability"].'" data-amount="'.$query["item_amount"].'" data-head="'.$head.'" data-name="'.htmlspecialchars(getname($nbt)).'" data-lore="'.count($lore).'" '.implode(" ", $lore_data).'"><br></span></span></a>'));
+    }
+
     function fetch_main(){
         $connection = db_connect();
         $sql = "select * from `".DB_TABLE_CATALOG."` where `buyer` is null and `cancelled`=0 and (`expire_time`>NOW() or `expire_time` is null) order by `publish_date` DESC limit 20";
@@ -72,17 +93,18 @@
         $result = $ps->fetchAll();
 
         foreach ($result as $key => $value) {
-            $name = htmlspecialchars(getname($value["item_nbt"]));
-            $lore = getlore($value["item_nbt"]);
-            $lore_count = count($lore);
-            $lore_data = array();
-            $head = ConvertTextureData($value["item_nbt"]);
+            // $id = $value["id"];
+            // $name = htmlspecialchars(getname($value["item_nbt"]));
+            // $lore = getlore($value["item_nbt"]);
+            // $lore_count = count($lore);
+            // $lore_data = array();
+            echo get_item($value);
 
-            foreach($lore as $idx=>$line){
-                array_push($lore_data, 'data-lore-'.$idx.'="'.htmlspecialchars($line).'"');
-            }
+            // foreach($lore as $idx=>$line){
+            //     array_push($lore_data, 'data-lore-'.$idx.'="'.htmlspecialchars($line).'"');
+            // }
 
-            echo '<span class="invslot" onmouseenter="showTooltip(event)" onmouseleave="hideTooltip(event)" onmousemove="handleTooltip(event)" onload="item_loaded"><span class="invslot-item"><span class="inv-sprite" data-bukkit="'.$value["item_type"].'" data-id="'.$value["id"].'" data-durability="'.$value["item_durability"].'" data-amount="'.$value["item_amount"].'" data-head="'.$head.'" data-name="'.$name.'" data-lore="'.$lore_count.'" '.implode(" ", $lore_data).'"><br></span></span></span>';
+            // echo '<a href="listing.php?id='.$id.'" class="invslot" onmouseenter="showTooltip(event)" onmouseleave="hideTooltip(event)" onmousemove="handleTooltip(event)" onload="item_loaded"><span class="invslot-item"><span class="inv-sprite" data-bukkit="'.$value["item_type"].'" data-id="'.$value["id"].'" data-durability="'.$value["item_durability"].'" data-amount="'.$value["item_amount"].'" data-head="'.$head.'" data-name="'.$name.'" data-lore="'.$lore_count.'" '.implode(" ", $lore_data).'"><br></span></span></a>';
         }
     }
 

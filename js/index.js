@@ -70,12 +70,37 @@ function find_image(namespace, durability = 0){
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-    var elements = document.querySelectorAll(".inventory > .invslot");
-    elements.forEach((element)=>{
+    document.querySelectorAll(".colorize").forEach((element)=>{
+        var text = element.innerText;
+        parse_color(text, element);
+    });
+
+    document.querySelectorAll(".bukkit2name").forEach((element)=>{
+        element.innerText = find_image(element.innerText).data.name;
+    });
+
+    {
+        var details_lore = document.querySelector(".details > .lore");
+        var item = document.querySelector(".inv-sprite");
+        
+        if(item.dataset.lore>0){
+            for (let i = 0; i < item.dataset.lore; i++) {
+                var line = document.createElement("SPAN");
+                parse_color(item.dataset["lore-"+i], line);
+                details_lore.append(line);
+                console.log(details_lore)
+            }
+        }
+    }
+
+    for(var date of document.querySelectorAll(".date-moment")){
+        date.innerHTML = moment(date.innerHTML, "YYYY-MM-DD hh-mm-ss").fromNow();
+    }
+
+    var invslots = document.querySelectorAll(".invslot");
+    invslots.forEach((element)=>{
         var sprite = element.querySelector(".inv-sprite");
         var data = find_image(sprite.dataset.bukkit, sprite.dataset.durability);
-
-        console.log(data)
 
         if(data.max_durability!=null && sprite.dataset.durability!=0){
             var bar = document.createElement("SPAN");
@@ -84,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function(){
             durability.classList.add("durability");
             var display = parseInt(sprite.dataset.durability)/data.max_durability;
             durability.style.backgroundColor = "rgb("+(display*255)+", "+(255-display*255)+", 0)";
-            durability.style.width = (display*26)+"px";
+            durability.style.width = (display*100)+"%";
             bar.classList.add("durability-bar");
             bar.append(durability);
             sprite.append(bar);
@@ -174,7 +199,6 @@ function parse_color(string = "", element){
 
     element.append(current);
 
-    console.log(element)    
     // return final_string;
 }
 

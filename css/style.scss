@@ -1,0 +1,245 @@
+@font-face {
+    font-family: MineFont;
+    src: url("font/Minecraft.ttf");
+}
+
+body {
+    background-image: url("../img/stock-img.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+// $slot-size: 32px;
+// $pixel-size: $slot-size/16;
+
+@mixin inventory($slot-size, $title-size) {
+    $pixel-size: $slot-size/16;
+
+    .image-skull {
+        background-size: $slot-size*8!important;
+        background-position: (-$slot-size) (-$slot-size);
+        image-rendering: pixelated;
+        width: 100%;
+        height: 100%;
+    }
+
+    .mc-font {
+        font-family: MineFont,sans-serif;
+    }
+
+    /* .pixel-image, .invslot-item-image, .sprite {
+        image-rendering: optimizeSpeed;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: optimize-contrast;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -o-crisp-edges;
+        image-rendering: crisp-edges;
+        image-rendering: pixelated;
+        -ms-interpolation-mode: nearest-neighbor;
+    } */
+
+    .durability-bar {
+        position: relative;
+        display: inline-block;
+        left: $pixel-size * 1.5;
+        top: $slot-size - $pixel-size * 3;
+        width: $slot-size - $pixel-size * 1.5 * 2; // @Warning: Magic Number "6"
+        height: $pixel-size * 2;
+        background-color: black;
+        z-index: 4;
+    }
+
+    .durability {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: $pixel-size;
+        background-color: rgb(0, 255, 0);
+        z-index: 4;
+    }
+
+    .amount{
+        display: inline-block;
+        position: relative;
+        width: $slot-size;
+        height: $slot-size;
+        color: white;
+        text-shadow: 0.125em 0.125em 0 #3F3F3F;
+        font-family: MineFont,sans-serif;
+        text-align: right;
+        vertical-align: text-bottom;
+        top: $slot-size - $slot-size/2 + $pixel-size;
+        left: $pixel-size;
+        pointer-events: none;
+    }
+
+    /* .durability::before {
+        background-color: rgb(0, 255, 0);
+        content: " ";
+        z-index: 3;
+        width: 26px;
+        height: 2px;
+        position: absolute;
+    } */
+
+    .inv-sprite {
+        display: inline-block;
+        vertical-align: text-top;
+        background-repeat: no-repeat;
+
+        background-size:$slot-size;
+
+        width: $slot-size;
+        height: $slot-size;
+        vertical-align: middle;
+        
+        image-rendering: optimizeSpeed;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: optimize-contrast;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -o-crisp-edges;
+        image-rendering: crisp-edges;
+        image-rendering: pixelated;
+        -ms-interpolation-mode: nearest-neighbor;
+
+        /* background-image: url(https://c-4tvylwolbz88x24k8b2w0s1dwhf0rx2ejsvbkmyvuax2eula.g00.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2fk8b2w0s1dwhf0r.jsvbkmyvua.ulax2ftpuljyhma_nhtlwlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$); */
+        /* background-position: -320px -1024px; */
+    }
+
+    .invslot-item,.invslot-item > a:first-child {
+        position: relative;
+        display: block;
+        margin: -($slot-size/16);
+        padding: $slot-size/16;
+        width: $slot-size+$pixel-size;
+        height: $slot-size+$pixel-size;
+    }
+
+    .inventory, .listing {
+        text-align: center;
+        padding: 10px;
+        margin-top: 20px;
+        background-color: #c6c6c6;
+        border-radius: 5px;
+        border: 4px solid;
+        border-color: #fff #555 #555 #fff;
+        box-shadow: 0 0 0 2pt black;
+
+    }
+
+    .inventory > .title {
+        font-size: $title-size;
+        font-family: MineFont,sans-serif;
+        margin:10px;
+    }
+    
+    .listing > .title {
+        font-size: 3rem;
+        font-family: MineFont,sans-serif;
+        margin:10px;
+    }
+
+    .invslot {
+        position: relative;
+        display: inline-block;
+        background: #8B8B8B no-repeat center center / $slot-size $slot-size;
+        border: $pixel-size solid;
+        border-color: #373737 #FFF #FFF #373737;
+        width: $slot-size+$pixel-size*2;
+        height: $slot-size+$pixel-size*2;
+        font-size: $slot-size/2;
+        line-height: 1;
+        text-align: left;
+        vertical-align: bottom;
+        
+        &::before,&::after {
+            content: "";
+            position: absolute;
+            background-color: #8B8B8B;
+            height: $pixel-size;
+            width: $pixel-size;
+            pointer-events: none;
+        }
+
+        &::before {
+            bottom: -$pixel-size;
+            left: -$pixel-size;
+        }
+        
+        &::after {
+            top: -$pixel-size;
+            right: -$pixel-size;
+        }
+    }
+}
+
+.details > .lore > span {
+    display: block;
+    font-family: MineFont, sans-serif;
+    font-size: 2rem;
+    text-align: left;
+}
+
+.bg-inventory {
+    color: #404040!important;
+    background-color: #c6c6c6;
+    border-radius: 5px;
+    border: 4px solid;
+    border-color: #fff #555 #555 #fff;
+    box-shadow: 0 0 0 2pt black;
+}
+
+.minefont {
+    font-family: MineFont, sans-serif;
+}
+
+.listing-info {
+    font-family: MineFont, sans-serif;
+    font-size: 2rem;
+
+    & > span {
+        display: block;
+        text-align: left;
+    }
+}
+
+// @media (max-width: 576px) {
+//     body {
+//         background: red;
+//     }
+//     @include inventory($slot-size: 128px, $title-size: 10px);
+// }
+
+// Small devices (landscape phones, 576px and up)
+
+// Medium devices (tablets, 768px and up)
+// @media (min-width: 576px) {
+    // body {
+    //     background: green;
+    // }
+// Mobile Fallback
+@include inventory($slot-size: 128px, $title-size: 3.5rem);
+
+@media (min-width: 992px) {
+    // body {
+    //     background: pink;
+    // }
+    @include inventory($slot-size: 48px, $title-size: 2rem);
+
+    .listing {
+        @include inventory($slot-size: 128px, $title-size: 3.5rem);
+    }
+
+}
+
+// @media (min-width: 576px) {
+//     @include inventory($slot-size: 64px);
+// }
+
+// @media (max-width: 1100px) {
+//     @include inventory($slot-size: 128px);
+// }
+
+// @media (max-width: 1200px) {
+//     @include inventory($slot-size: 64px);
+// }

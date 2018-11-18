@@ -36,25 +36,25 @@
 <div class="container" style="height:100vh;">
     <div class="row align-items-center justify-content-center" style="height:100vh;">
         <div class="col col-10 col-lg-9 col-xl-6">
-            <div class="card bg-dark text-light">
+            <div class="card bg-inventory text-light">
                 <div class="card-body">
-                    <h3 class="card-title">Log in</h3>
+                    <h3 class="card-title color-f minefont">Log in</h3>
                     
                     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                         <div class="form-group">
-                            <label for="name">Minecraft Username</label>
+                            <label for="name" class="color-f minefont">Minecraft Username</label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="pin">Pin</label>
+                            <label for="pin" class="color-f minefont">Pin</label>
                             <input type="password" class="form-control" id="pin" name="pin" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Log in</button>
-                        <a href="setpin.php" class="text-white-50 mx-2">Forgot / Register Instructions</a>
+                        <button type="submit" class="btn btn-primary color-f minefont">Log in</button>
+                        <a href="setpin.php" class="mx-2 color-3 minefont">Forgot / Register Instructions</a>
                     </form>
 
                     <?php if(!$valid_account) { ?>
-                    <div class="alert alert-danger mt-4" role="alert">Error: Invalid name or password</div>
+                    <div class="alert alert-danger mt-4 color-c minefont" role="alert">Error: Invalid name or password</div>
                     <?php } ?>
                 </div>
             </div>
