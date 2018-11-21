@@ -1,5 +1,19 @@
 <?php
-    include("config.php");
+    $default_config = include("default-config.php");
+    if(file_exists("config.php")){
+        $loaded_config = include("config.php");
+
+        foreach ($loaded_config as $key => $value) {
+            define($key, $value);
+        }
+    }
+    
+    foreach ($default_config as $key => $value) {
+        if(!defined($key)){
+            define($key, $value);
+        }
+    }
+
     include("src/db_manager.php");
     include("src/accounts.php");
     include("src/listings.php");
