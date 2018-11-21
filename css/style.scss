@@ -9,9 +9,6 @@ body {
     background-position: center;
 }
 
-// $slot-size: 32px;
-// $pixel-size: $slot-size/16;
-
 @mixin inventory($slot-size, $title-size) {
     $pixel-size: $slot-size/16;
 
@@ -27,23 +24,12 @@ body {
         font-family: MineFont,sans-serif;
     }
 
-    /* .pixel-image, .invslot-item-image, .sprite {
-        image-rendering: optimizeSpeed;
-        image-rendering: -webkit-optimize-contrast;
-        image-rendering: optimize-contrast;
-        image-rendering: -moz-crisp-edges;
-        image-rendering: -o-crisp-edges;
-        image-rendering: crisp-edges;
-        image-rendering: pixelated;
-        -ms-interpolation-mode: nearest-neighbor;
-    } */
-
     .durability-bar {
         position: relative;
         display: inline-block;
         left: $pixel-size * 1.5;
         top: $slot-size - $pixel-size * 3;
-        width: $slot-size - $pixel-size * 1.5 * 2; // @Warning: Magic Number "6"
+        width: $slot-size - $pixel-size * 1.5 * 2;
         height: $pixel-size * 2;
         background-color: black;
         z-index: 4;
@@ -73,15 +59,6 @@ body {
         pointer-events: none;
     }
 
-    /* .durability::before {
-        background-color: rgb(0, 255, 0);
-        content: " ";
-        z-index: 3;
-        width: 26px;
-        height: 2px;
-        position: absolute;
-    } */
-
     .inv-sprite {
         display: inline-block;
         vertical-align: text-top;
@@ -101,9 +78,6 @@ body {
         image-rendering: crisp-edges;
         image-rendering: pixelated;
         -ms-interpolation-mode: nearest-neighbor;
-
-        /* background-image: url(https://c-4tvylwolbz88x24k8b2w0s1dwhf0rx2ejsvbkmyvuax2eula.g00.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2fk8b2w0s1dwhf0r.jsvbkmyvua.ulax2ftpuljyhma_nhtlwlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$); */
-        /* background-position: -320px -1024px; */
     }
 
     .invslot-item,.invslot-item > a:first-child {
@@ -195,35 +169,33 @@ body {
 
 .listing-info {
     font-family: MineFont, sans-serif;
-    font-size: 2rem;
+    font-size: 4rem;
 
+    @media (min-width: 992px) {
+        font-size: 2rem;
+    }
+    
     & > span {
         display: block;
         text-align: left;
     }
 }
 
-// @media (max-width: 576px) {
-//     body {
-//         background: red;
-//     }
-//     @include inventory($slot-size: 128px, $title-size: 10px);
-// }
+.order-button {
+    margin: 20px;
+    font-size: 3rem;
+    padding: 20px;
+    
+    @media (min-width: 992px) {
+        font-size: 2rem;
+        padding: 10px;
+    }
+}
 
-// Small devices (landscape phones, 576px and up)
-
-// Medium devices (tablets, 768px and up)
-// @media (min-width: 576px) {
-    // body {
-    //     background: green;
-    // }
 // Mobile Fallback
 @include inventory($slot-size: 128px, $title-size: 3.5rem);
 
 @media (min-width: 992px) {
-    // body {
-    //     background: pink;
-    // }
     @include inventory($slot-size: 48px, $title-size: 2rem);
 
     .listing {
@@ -231,15 +203,3 @@ body {
     }
 
 }
-
-// @media (min-width: 576px) {
-//     @include inventory($slot-size: 64px);
-// }
-
-// @media (max-width: 1100px) {
-//     @include inventory($slot-size: 128px);
-// }
-
-// @media (max-width: 1200px) {
-//     @include inventory($slot-size: 64px);
-// }

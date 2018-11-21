@@ -20,6 +20,9 @@
             $u_name = $found_listing[1];
         }
     }elseif(!$GLOBALS["logged"]){
+        // @Warning: Not Tested,
+        // this type of routes cause problems
+        // if the web is on a parent folder
         header("Location: ../");
         exit();
     }else{

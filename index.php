@@ -10,8 +10,6 @@
     <div id="minetip-tooltip" style="display:none;">
         <span class="name"></span><br>
         <span class="lore"></span>
-        <hr style="color:white;">
-        <span>asd</span>
     </div>
     <script src="items/bukkit2icon.js"></script>
     <script src="js/index.js"></script>

@@ -14,6 +14,7 @@
         }
     }
 
+    include("src/utils.php");
     include("src/db_manager.php");
     include("src/accounts.php");
     include("src/listings.php");

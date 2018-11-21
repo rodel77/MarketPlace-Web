@@ -6,7 +6,7 @@
     ses_start();
     validate_session();
     if($GLOBALS["logged"]){
-        header("Location: ../");
+        header("Location: ".get_main_path());
         die();
     }
 
@@ -50,7 +50,7 @@
                             <input type="password" class="form-control" id="pin" name="pin" required>
                         </div>
                         <button type="submit" class="btn btn-primary color-f minefont">Log in</button>
-                        <a href="setpin.php" class="mx-2 color-3 minefont">Forgot / Register Instructions</a>
+                        <a href="<?php echo get_path("setpin"); ?>" class="mx-2 color-3 minefont">Forgot / Register Instructions</a>
                     </form>
 
                     <?php if(!$valid_account) { ?>

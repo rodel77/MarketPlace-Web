@@ -34,4 +34,9 @@
         $_SESSION["uuid"] = $account->uuid;
         $_SESSION["hash"] = $account->hash;
     }
+
+    function set_token($token){
+        $_SESSION["token"] = $token;
+        return $token;
+    }
 ?>

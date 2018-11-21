@@ -10,8 +10,6 @@
     <div id="minetip-tooltip" style="display:none;">
         <span class="name"></span><br>
         <span class="lore"></span>
-        <hr style="color:white;">
-        <span>asd</span>
     </div>
     <script src="items/bukkit2icon.js"></script>
     <script src="js/index.js"></script>
@@ -69,12 +67,25 @@
                         <hr style="border-top-width:2px;">
 
                         <div class="listing-info">
-                            <span class="color-f minefont">Seller: <a href="/profile.php?user=<?php echo $listing["seller"]; ?>" class="color-6 color-n"><?php echo $listing["seller_name"]; ?> <img src="http://cravatar.eu/avatar/<?php echo $listing["seller"]; ?>/32.png"></span></span></a>
+                            <span class="color-f minefont">Seller: <a href="/profile.php?user=<?php echo $listing["seller"]; ?>" class="color-6 color-n"><?php echo $listing["seller_name"]; ?></a></span></span>
                             <span class="color-f minefont">Published: <span class="date-moment color-6"><?php echo $listing["publish_date"]; ?></span></span>
+
+                            
+                            <?php if($GLOBALS["logged"]) { if(item_available($listing)){ ?>
+
                             <form action="./purchase.php" method="POST">
                                 <input type="hidden" name="id" value="<?php echo $listing["id"]; ?>">
-                                <button type="submit" class="btn btn-success color-f minefont">Order</button>
+                                <input type="hidden" name="token" value="<?php echo set_token(random_token()); ?>">
+                                <?php if($GLOBALS["logged"]) { ?>
+                                    <button type="submit" class="btn btn-success color-f minefont order-button">Order</button>
+                                <?php } ?>
                             </form>
+
+                            <?php } else { ?>
+                                <div class="alert alert-danger mt-4 color-c minefont" role="alert">So but this listing is no longer available!</div>
+                            <?php }
+                            } ?>
+
                             <!-- <span>Seller: asd</span> -->
                         </div>
 

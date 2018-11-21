@@ -41,6 +41,34 @@
         return count($result)>0 ? $result[0][0] : 0;
     }
 
+    function fetch_item($id){
+        $connection = db_connect();
+        $sql = "select * from `".DB_TABLE_CATALOG."` where `id` = :id and `buyer` is null and `cancelled`=0 and (`expire_time`>NOW() or `expire_time` is null)";
+        $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $ps->execute(array(":id"=>$id));
+        $result = $ps->fetchAll();
+        return count($result)>0 ? $result[0] : NULL;
+    }
+
+    // @Warning: Add "purchase_method"
+    // in database
+    // Also not tested
+    function purchase_item($uuid, $name, $id){
+        $connection = db_connect();
+        $sql = "update `".DB_TABLE_CATALOG."` set `buyer`=:uuid, `buyer_name`=:name, `buy_date`=NOW() where `id`=:id";
+        $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        if($ps->execute(array(":uuid"=>$uuid, ":name"=>$name, ":id"=>$id))){
+            $sql = "update `".DB_TABLE_ACCOUNTS."` set `deliveries` = concat(`deliveries`, :id) where `uuid` = :uuid";
+            if($ps->execute(array(":id"=>$id, ":uuid"=>$uuid))){
+                return true;
+            }
+        }
+
+        return false;
+        // $result = $ps->fetchAll();
+        // return count($result)>0 ? $result[0] : NULL;
+    }
+
     function items_sold($uuid){
         $connection = db_connect();
         $sql = "select count(*) from `".DB_TABLE_CATALOG."` where `seller` = :uuid and `buyer` is not null";
@@ -57,6 +85,10 @@
         $ps->execute(array(":uuid"=>$uuid));
         $result = $ps->fetchAll();
         return count($result)>0 ? $result[0][0] : 0;
+    }
+
+    function item_available($listing){
+        return $listing["buyer"]==NULL && $listing["cancelled"]=="0" && ($listing["expire_time"]==NULL || new DateTime($listing["expire_time"])>new DateTime());
     }
 
     function pending_to_claim(){
