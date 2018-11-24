@@ -59,7 +59,8 @@
         $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         if($ps->execute(array(":uuid"=>$uuid, ":name"=>$name, ":id"=>$id))){
             $sql = "update `".DB_TABLE_ACCOUNTS."` set `deliveries` = concat(`deliveries`, :id) where `uuid` = :uuid";
-            if($ps->execute(array(":id"=>$id, ":uuid"=>$uuid))){
+            $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+            if($ps->execute(array(":id"=>",".$id, ":uuid"=>$uuid))){
                 return true;
             }
         }

@@ -16,13 +16,18 @@
 
     <div class="container" style="height:100vh;">
     <div class="row align-items-center justify-content-center" style="height:100vh;">
-        <div class="col col-10 col-lg-9 col-xl-6">
+        <div class="col col-12 col-lg-9 col-xl-6">
             <div class="card bg-inventory text-light">
                 <div class="card-body">
                     <?php
                         if(!isset($_POST["id"])) {
                             echo '<div class="alert alert-danger mt-4 color-c minefont" role="alert">Invalid listing!</div>';
                             die(); 
+                        }
+                        
+                        if(!is_numeric($_POST["id"])){
+                            echo '<div class="alert alert-danger mt-4 color-c minefont" role="alert">Listing id must be number</div>';
+                            die();
                         }
 
                         if(!$GLOBALS["logged"]) {
@@ -35,7 +40,7 @@
                             die(); 
                         }
                         
-                        // unset($_SESSION["token"]);
+                        unset($_SESSION["token"]);
                         
                         $listing = fetch_item($_POST["id"]);
                         
@@ -43,12 +48,25 @@
                             echo '<div class="alert alert-danger mt-4 color-c minefont" role="alert">Invalid item, please try with another listing</div>';
                             die(); 
                         }
-
                         
+                        if($listing["seller"]==$GLOBALS["account"]->uuid){
+                            echo '<div class="alert alert-danger mt-4 color-c minefont" role="alert">You are the seller of this item</div>';
+                            die();
+                        }
+                        
+                        if($GLOBALS["account"]->money<$listing["price"]){
+                            echo '<div class="alert alert-danger mt-4 color-c minefont" role="alert">You don\'t have money to acquire this item</div>';
+                            die();
+                        }
+                        
+                        if(!purchase_item($GLOBALS["account"]->uuid, $GLOBALS["account"]->name, $_POST["id"])){
+                            echo '<div class="alert alert-danger mt-4 color-c minefont" role="alert">Error while purchasing the listing, please try later</div>';
+                            die(); 
+                        }
                     ?>
 
-
-                    <?php echo "Hackerman!"; ?>
+                    <h3 class="card-title color-f minefont">Order Completed!</h3>
+                    <span class="color-f minefont">Now you can claim your item ingame</span>
                 </div>
             </div>
         </div>

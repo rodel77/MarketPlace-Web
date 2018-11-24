@@ -69,15 +69,29 @@
                         <div class="listing-info">
                             <span class="color-f minefont">Seller: <a href="/profile.php?user=<?php echo $listing["seller"]; ?>" class="color-6 color-n"><?php echo $listing["seller_name"]; ?></a></span></span>
                             <span class="color-f minefont">Published: <span class="date-moment color-6"><?php echo $listing["publish_date"]; ?></span></span>
+                            <span class="color-f minefont">Price: <span class="color-6"><?php echo $listing["price"]; ?></span></span>
 
                             
-                            <?php if($GLOBALS["logged"]) { if(item_available($listing)){ ?>
+                            <?php if($GLOBALS["logged"]) {
+                                if(item_available($listing)){
+                                    // echo floatval($GLOBALS["account"]->money);
+                                    // echo floatval($listing["price"]);
+                                    $can_acquire = floatval($GLOBALS["account"]->money)>=floatval($listing["price"]);
+                                    if(!$can_acquire) { ?>
+                                        <div class="alert alert-danger mt-4 color-c minefont" role="alert">You don't have money to acquire this item</div>
+                                    <?php } ?>
 
-                            <form action="./purchase.php" method="POST">
+                            <form action=<?php echo get_path("purchase"); ?> method="POST">
                                 <input type="hidden" name="id" value="<?php echo $listing["id"]; ?>">
                                 <input type="hidden" name="token" value="<?php echo set_token(random_token()); ?>">
-                                <?php if($GLOBALS["logged"]) { ?>
-                                    <button type="submit" class="btn btn-success color-f minefont order-button">Order</button>
+                                <?php if($GLOBALS["logged"]) {
+                                        if($listing["seller"]!=$GLOBALS["account"]->uuid) {
+                                            if($can_acquire){?>
+                                            <button type="submit" class="btn btn-success color-f minefont order-button">Order</button>
+                                        <?php } 
+                                        } else { ?>
+                                            <button type="submit" class="btn btn-danger color-f minefont order-button" disabled>Cancel (WIP)</button>
+                                    <?php } ?>
                                 <?php } ?>
                             </form>
 
@@ -86,56 +100,7 @@
                             <?php }
                             } ?>
 
-                            <!-- <span>Seller: asd</span> -->
                         </div>
-
-                        <!-- <div>
-                            <span class="invslot">
-                                <span class="invslot-item" data-minetip-title="Dandelion">
-                                    <span class="sprite inv-sprite" style="background-image:url(https://minecraft.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2ftpuljyhma.nhtlwlkph.jvtx2ftlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);background-position:-320px -1024px">
-                                        <br>
-                                    </span>
-                                </span>
-                            </span>
-                            <span class="invslot"><span class="invslot-item" data-minetip-title="Poppy"><span class="sprite inv-sprite" style="background-image:url(https://minecraft.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2ftpuljyhma.nhtlwlkph.jvtx2ftlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);background-position:-64px -1056px"><br></span></span></span><span class="invslot"><span class="invslot-item" data-minetip-title="Blue Orchid"><span class="sprite inv-sprite" style="background-image:url(https://minecraft.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2ftpuljyhma.nhtlwlkph.jvtx2ftlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);background-position:-128px -1024px"><br></span></span></span><span class="invslot"><span class="invslot-item" data-minetip-title="Allium"><span class="sprite inv-sprite" style="background-image:url(https://minecraft.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2ftpuljyhma.nhtlwlkph.jvtx2ftlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);background-position:-992px -992px"><br></span></span></span><span class="invslot"><span class="invslot-item" data-minetip-title="Azure Bluet"><span class="sprite inv-sprite" style="background-image:url(https://minecraft.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2ftpuljyhma.nhtlwlkph.jvtx2ftlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);background-position:-0px -1024px"><br></span></span></span><span class="invslot"><span class="invslot-item" data-minetip-title="Red Tulip"><span class="sprite inv-sprite" style="background-image:url(https://minecraft.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2ftpuljyhma.nhtlwlkph.jvtx2ftlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);background-position:-224px -1056px"><br></span></span></span><span class="invslot"><span class="invslot-item" data-minetip-title="Orange Tulip"><span class="sprite inv-sprite" style="background-image:url(https://minecraft.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2ftpuljyhma.nhtlwlkph.jvtx2ftlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);background-position:-960px -1024px"><br></span></span></span><span class="invslot"><span class="invslot-item" data-minetip-title="White Tulip"><span class="sprite inv-sprite" style="background-image:url(https://minecraft.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2ftpuljyhma.nhtlwlkph.jvtx2ftlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);background-position:-576px -1056px"><br></span></span></span><span class="invslot"><span class="invslot-item" data-minetip-title="Pink Tulip"><span class="sprite inv-sprite" style="background-image:url(https://minecraft.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2ftpuljyhma.nhtlwlkph.jvtx2ftlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);background-position:-32px -1056px"><br></span></span></span><span class="invslot"><span class="invslot-item" data-minetip-title="Oxeye Daisy"><span class="sprite inv-sprite" style="background-image:url(https://minecraft.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2ftpuljyhma.nhtlwlkph.jvtx2ftlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);background-position:-992px -1024px"><br></span></span></span><span class="invslot"><span class="invslot-item" data-minetip-title="Cornflower"><span class="sprite inv-sprite" style="background-image:url(https://minecraft.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2ftpuljyhma.nhtlwlkph.jvtx2ftlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);background-position:-640px -2368px"><br></span></span></span><span class="invslot"><span class="invslot-item" data-minetip-title="Lily of the Valley"><span class="sprite inv-sprite" style="background-image:url(https://minecraft.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2ftpuljyhma.nhtlwlkph.jvtx2ftlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);background-position:-672px -2368px"><br></span></span></span><span class="invslot"><span class="invslot-item" data-minetip-title="Wither Rose"><span class="sprite inv-sprite" style="background-image:url(https://minecraft.gamepedia.com/g00/3_c-4tpuljyhma.nhtlwlkph.jvt_/c-4TVYLWOLBZ88x24oaawzx3ax2fx2ftpuljyhma.nhtlwlkph.jvtx2ftlkphx2f1x2f11x2fPucZwypal.wunx3fclyzpvux3d8218500175974x26p87j.thyrx3duvaOATS_$/$/$/$/$);background-position:-608px -2368px"><br></span></span></span></div> -->
-                        <!-- </div> -->
-
-                    <!-- </div>
-                </div> -->
-                <!-- <div class="slot">
-                    <img src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.13/assets/minecraft/textures/item/acacia_boat.png" alt="">
-                </div> -->
-            <!-- </div> -->
-            <!-- <table class="table table-striped table-dark rounded mt-5">
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        </tr>
-                        <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        </tr>
-                        <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                        </tr>
-                    </tbody>
-            </table> -->
         </div>
     </div>
 </body>
