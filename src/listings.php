@@ -53,14 +53,14 @@
     // @Warning: Add "purchase_method"
     // in database
     // Also not tested
-    function purchase_item($uuid, $name, $id){
+    function purchase_item($uuid, $name, $id, $price){
         $connection = db_connect();
         $sql = "update `".DB_TABLE_CATALOG."` set `buyer`=:uuid, `buyer_name`=:name, `buy_date`=NOW() where `id`=:id";
         $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         if($ps->execute(array(":uuid"=>$uuid, ":name"=>$name, ":id"=>$id))){
-            $sql = "update `".DB_TABLE_ACCOUNTS."` set `deliveries` = concat(`deliveries`, :id) where `uuid` = :uuid";
+            $sql = "update `".DB_TABLE_ACCOUNTS."` set `deliveries` = concat(`deliveries`, :id), `money` = `money`-:price where `uuid` = :uuid";
             $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-            if($ps->execute(array(":id"=>",".$id, ":uuid"=>$uuid))){
+            if($ps->execute(array(":id"=>",".$id, ":uuid"=>$uuid, ":price"=>$price))){
                 return true;
             }
         }

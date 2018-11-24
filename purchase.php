@@ -59,7 +59,7 @@
                             die();
                         }
                         
-                        if(!purchase_item($GLOBALS["account"]->uuid, $GLOBALS["account"]->name, $_POST["id"])){
+                        if(!purchase_item($GLOBALS["account"]->uuid, $GLOBALS["account"]->name, $_POST["id"], $listing["price"])){
                             echo '<div class="alert alert-danger mt-4 color-c minefont" role="alert">Error while purchasing the listing, please try later</div>';
                             die(); 
                         }
