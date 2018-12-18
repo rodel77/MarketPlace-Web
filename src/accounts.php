@@ -10,31 +10,33 @@
         public $permission;
 
         function __construct($selector){
-            try {
-                $connection = db_connect();
+            if(WEB_ACCOUNTS_ENABLED){
+                try {
+                    $connection = db_connect();
 
-                $sql = "select * from `".DB_TABLE_ACCOUNTS."` where `name` = :name or `uuid` = :uuid";
-                $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-                $ps->execute(array(":name" => $selector, ":uuid" => $selector));
-                $result = $ps->fetchAll();
+                    $sql = "select * from `".DB_TABLE_ACCOUNTS."` where `name` = :name or `uuid` = :uuid";
+                    $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+                    $ps->execute(array(":name" => $selector, ":uuid" => $selector));
+                    $result = $ps->fetchAll();
 
-                if(count($result)>0){
-                    $user = $result[0];
+                    if(count($result)>0){
+                        $user = $result[0];
 
-                    $this->uuid       = $user["uuid"];
-                    $this->name       = $user["name"];
-                    $this->money      = $user["money"];
-                    $this->deliveries = $user["deliveries"];
-                    $this->password   = $user["password"];
-                    $this->permission = $user["permission"];
+                        $this->uuid       = $user["uuid"];
+                        $this->name       = $user["name"];
+                        $this->money      = $user["money"];
+                        $this->deliveries = $user["deliveries"];
+                        $this->password   = $user["password"];
+                        $this->permission = $user["permission"];
 
-                    $temp_pwd = array_chunk(unpack("C*", $this->password), 32);
-                    $this->salt = $temp_pwd[0];
-                    $this->hash = bin2hex(substr($this->password, 32, 32));
+                        $temp_pwd = array_chunk(unpack("C*", $this->password), 32);
+                        $this->salt = $temp_pwd[0];
+                        $this->hash = bin2hex(substr($this->password, 32, 32));
+                    }
+                } catch (PDOException $e){
+                    print "An internal database error occurred!";
+                    die();
                 }
-            } catch (PDOException $e){
-                print "An internal database!";
-                die();
             }
         }
 
