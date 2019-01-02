@@ -45,28 +45,36 @@
                         }
                         
                         unset($_SESSION["token"]);
-                        
+
+                        lock_table(array("catalog"=>"write","accounts"=>"write"));
+
                         $listing = fetch_item($_POST["id"]);
                         
                         if($listing==NULL){
                             echo '<div class="alert alert-danger mt-4 color-c minefont" role="alert">Invalid item, please try with another listing</div>';
-                            die(); 
+                            unlock_table();
+                            die();
                         }
                         
                         if($listing["seller"]==$GLOBALS["account"]->uuid){
                             echo '<div class="alert alert-danger mt-4 color-c minefont" role="alert">You are the seller of this item</div>';
+                            unlock_table();
                             die();
                         }
                         
                         if($GLOBALS["account"]->money<$listing["price"]){
                             echo '<div class="alert alert-danger mt-4 color-c minefont" role="alert">You don\'t have money to acquire this item</div>';
+                            unlock_table();
                             die();
                         }
                         
                         if(!purchase_item($GLOBALS["account"]->uuid, $GLOBALS["account"]->name, $_POST["id"], $listing["price"])){
                             echo '<div class="alert alert-danger mt-4 color-c minefont" role="alert">Error while purchasing the listing, please try later</div>';
-                            die(); 
+                            unlock_table();
+                            die();
                         }
+
+                        unlock_table();
                     ?>
 
                     <h3 class="card-title color-f minefont">Order Completed!</h3>

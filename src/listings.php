@@ -1,4 +1,21 @@
 <?php
+    function lock_table($options){
+        $newOpts = array();
+
+        foreach ($options as $key => $value) {
+            assert($key=="catalog" || $key=="accounts", "Key must be catalog or accounts");
+            array_push($newOpts, "`".($key=="catalog" ? DB_TABLE_CATALOG : DB_TABLE_ACCOUNTS)."` ".$value);
+        }
+
+        print("{LOCK}");
+        db_connect()->exec("lock tables ".implode(", ", $newOpts).";");
+    }
+
+    function unlock_table(){
+        print("{UNLOCK}");
+        db_connect()->exec("unlock tables;");
+    }
+
     // Find user UUID, even if the selector is an UUID,
     // it will help to know if the user exists at all
     function find_listing_user($selector){
@@ -55,16 +72,20 @@
     // Also not tested
     function purchase_item($uuid, $name, $id, $price){
         $connection = db_connect();
-        $sql = "update `".DB_TABLE_CATALOG."` set `buyer`=:uuid, `buyer_name`=:name, `buy_date`=NOW() where `id`=:id";
+        $sql = "update `".DB_TABLE_CATALOG."` set `buyer`=:uuid, `buyer_name`=:name, `buy_date`=NOW() where `id`=:id;";
         $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         if($ps->execute(array(":uuid"=>$uuid, ":name"=>$name, ":id"=>$id))){
-            $sql = "update `".DB_TABLE_ACCOUNTS."` set `deliveries` = concat(`deliveries`, :id), `money` = `money`-:price where `uuid` = :uuid";
+            $sql = "update `".DB_TABLE_ACCOUNTS."` set `deliveries` = json_array_insert(`deliveries`, '$[0]', :id), `money` = `money`-:price where `uuid` = :uuid;";
             $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-            if($ps->execute(array(":id"=>",".$id, ":uuid"=>$uuid, ":price"=>$price))){
+
+            $ps->bindValue(":id", intval($id), PDO::PARAM_INT);
+            $ps->bindValue(":uuid", $uuid, PDO::PARAM_STR);
+            $ps->bindValue(":price", intval($price), PDO::PARAM_INT);
+
+            if($ps->execute()){
                 return true;
             }
         }
-
         return false;
         // $result = $ps->fetchAll();
         // return count($result)>0 ? $result[0] : NULL;
