@@ -79,6 +79,8 @@
 
                     <h3 class="card-title color-f minefont">Order Completed!</h3>
                     <span class="color-f minefont">Now you can claim your item ingame</span>
+                    <br><br>
+                    <a class="color-a minefont" href="<?php echo get_main_path(); ?>">Return to main site</a>
                 </div>
             </div>
         </div>

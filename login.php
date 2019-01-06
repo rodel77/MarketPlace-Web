@@ -11,7 +11,7 @@
     }
 
     // Just use for feedback
-    $valid_account = false;
+    $valid_account = true;
 
     if(WEB_ACCOUNTS_ENABLED && isset($_POST["name"]) && isset($_POST["pin"])){
         $name = $_POST["name"];
@@ -44,7 +44,7 @@
                         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                             <div class="form-group">
                                 <label for="name" class="color-f minefont">Minecraft Username</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
+                                <input type="text" class="form-control" id="name" name="name" value="<?php echo isset($_POST["name"]) ? $_POST["name"] : ""; ?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="pin" class="color-f minefont">Pin</label>

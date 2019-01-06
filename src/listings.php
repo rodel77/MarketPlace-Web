@@ -7,12 +7,10 @@
             array_push($newOpts, "`".($key=="catalog" ? DB_TABLE_CATALOG : DB_TABLE_ACCOUNTS)."` ".$value);
         }
 
-        print("{LOCK}");
         db_connect()->exec("lock tables ".implode(", ", $newOpts).";");
     }
 
     function unlock_table(){
-        print("{UNLOCK}");
         db_connect()->exec("unlock tables;");
     }
 
@@ -69,7 +67,6 @@
 
     // @Warning: Add "purchase_method"
     // in database
-    // Also not tested
     function purchase_item($uuid, $name, $id, $price){
         $connection = db_connect();
         $sql = "update `".DB_TABLE_CATALOG."` set `buyer`=:uuid, `buyer_name`=:name, `buy_date`=NOW() where `id`=:id;";
@@ -78,7 +75,7 @@
             $sql = "update `".DB_TABLE_ACCOUNTS."` set `deliveries` = json_array_insert(`deliveries`, '$[0]', :id), `money` = `money`-:price where `uuid` = :uuid;";
             $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
 
-            $ps->bindValue(":id", intval($id), PDO::PARAM_INT);
+            $ps->bindValue(":id", $id, PDO::PARAM_STR);
             $ps->bindValue(":uuid", $uuid, PDO::PARAM_STR);
             $ps->bindValue(":price", intval($price), PDO::PARAM_INT);
 
@@ -87,8 +84,6 @@
             }
         }
         return false;
-        // $result = $ps->fetchAll();
-        // return count($result)>0 ? $result[0] : NULL;
     }
 
     function items_sold($uuid){
@@ -141,24 +136,13 @@
 
     function fetch_main(){
         $connection = db_connect();
-        $sql = "select * from `".DB_TABLE_CATALOG."` where `buyer` is null and `cancelled`=0 and (`expire_time`>NOW() or `expire_time` is null) order by `publish_date` DESC limit 20";
+        $sql = "select * from `".DB_TABLE_CATALOG."` where `buyer` is null and `cancelled`=0 and (`expire_time`>NOW() or `expire_time` is null) order by `publish_date` DESC".(ITEMS_PER_PAGE>0 ? "limit ".ITEMS_PER_PAGE : "");
         $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         $ps->execute();
         $result = $ps->fetchAll();
 
         foreach ($result as $key => $value) {
-            // $id = $value["id"];
-            // $name = htmlspecialchars(getname($value["item_nbt"]));
-            // $lore = getlore($value["item_nbt"]);
-            // $lore_count = count($lore);
-            // $lore_data = array();
             echo get_item($value);
-
-            // foreach($lore as $idx=>$line){
-            //     array_push($lore_data, 'data-lore-'.$idx.'="'.htmlspecialchars($line).'"');
-            // }
-
-            // echo '<a href="listing.php?id='.$id.'" class="invslot" onmouseenter="showTooltip(event)" onmouseleave="hideTooltip(event)" onmousemove="handleTooltip(event)" onload="item_loaded"><span class="invslot-item"><span class="inv-sprite" data-bukkit="'.$value["item_type"].'" data-id="'.$value["id"].'" data-durability="'.$value["item_durability"].'" data-amount="'.$value["item_amount"].'" data-head="'.$head.'" data-name="'.$name.'" data-lore="'.$lore_count.'" '.implode(" ", $lore_data).'"><br></span></span></a>';
         }
     }
 

@@ -19,6 +19,13 @@
         // If you server has configured pages without .php sufix just remove it there:
         "FILE_SUFIX"        => ".php",
 
+        "ITEMS_PER_PAGE"    => 20,
+
+        "MONEY_FORMAT" => "$%s",
+        "MONEY_DECIMALS" => 2,
+        "MONEY_DECIMAL_SEPARATOR" => ".",
+        "MONEY_THOUSAND_SEPARATOR" => ",",
+
         "WEB_ACCOUNTS_ENABLED" => false, // true = Enabled, false = Disabled
     );
 ?>
