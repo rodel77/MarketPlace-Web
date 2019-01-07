@@ -58,7 +58,7 @@
                         <hr style="border-top-width:2px;">
 
                         <div class="listing-info">
-                            <span class="color-f minefont">Seller: <a href="/profile.php?user=<?php echo $listing["seller"]; ?>" class="color-6 color-n"><?php echo $listing["seller_name"]; ?></a></span></span>
+                            <span class="color-f minefont">Seller: <a href="<?php echo get_path("profile"); ?>?user=<?php echo $listing["seller"]; ?>" class="color-6 color-n"><?php echo $listing["seller_name"]; ?></a></span></span>
                             <span class="color-f minefont">Published: <span class="date-moment color-6"><?php echo $listing["publish_date"]; ?></span></span>
                             <span class="color-f minefont">Price: <span class="color-6"><?php echo price_format($listing["price"]); ?></span></span>
                             <?php if($buy_tax) { ?>
