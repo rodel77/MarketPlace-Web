@@ -24,7 +24,7 @@
                     $listing = find_item_by_id($_GET["id"]);
                     
                     if(count($listing)==0){
-                        header("Location: ../");
+                        header("Location: ".get_main_path());
                     }else{
                         $listing = $listing[0];
                         if(getname($listing["item_nbt"])==""){ ?>
@@ -35,7 +35,7 @@
                     <?php } ?>
             <?php 
                 }else{
-                    header("Location: ../");
+                    header("Location: ".get_main_main());
                 } ?>
 
                         <hr style="border-top-width:2px;">

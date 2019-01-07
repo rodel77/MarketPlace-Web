@@ -23,7 +23,7 @@
         // @Warning: Not Tested,
         // this type of routes cause problems
         // if the web is on a parent folder
-        header("Location: ../");
+        header("Location: ".get_main_path());
         exit();
     }else{
         $webaccount = $GLOBALS["account"];

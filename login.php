@@ -22,7 +22,7 @@
         if(isset($account->uuid)){
             if($account->compare_password($pin)){
                 login_user($account);
-                header("Location: ../");
+                header("Location: ".get_main_path());
                 die();
             }else{
                 $valid_account = false;
