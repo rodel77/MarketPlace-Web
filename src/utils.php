@@ -1,6 +1,6 @@
 <?php
     function get_main_path(){
-        return CONTEXT=="main" ? "./" : "../";
+        return "./";
     }
 
     function get_path($file){
