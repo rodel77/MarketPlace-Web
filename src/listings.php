@@ -83,10 +83,18 @@
         $sql = "update `".DB_TABLE_CATALOG."` set `buyer`=:uuid, `buyer_name`=:name, `buy_date`=NOW(), `purchase_reference`=:purchase_reference where `id`=:id;";
         $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         if($ps->execute(array(":uuid"=>$uuid, ":name"=>$name, ":id"=>$id, ":purchase_reference"=>"WEBMARKET"))){
-            $sql = "update `".DB_TABLE_ACCOUNTS."` set `deliveries` = json_array_insert(`deliveries`, '$[0]', :id), `money` = `money`-:price where `uuid` = :uuid;";
+            
+            $ps = $connection->prepare("select `deliveries` from `".DB_TABLE_ACCOUNTS."` where `uuid`=:uuid");
+            $ps->execute(array(":uuid"=>$uuid));
+            $result = $ps->fetchAll();
+
+            $deliveries = json_decode($result[0][0]);
+            array_push($deliveries, (string)intval($id));
+
+            $sql = "update `".DB_TABLE_ACCOUNTS."` set `deliveries`=:deliveries, `money`=`money`-:price where `uuid`=:uuid;";
             $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
 
-            $ps->bindValue(":id", $id, PDO::PARAM_STR);
+            $ps->bindValue(":deliveries", json_encode($deliveries), PDO::PARAM_STR);
             $ps->bindValue(":uuid", $uuid, PDO::PARAM_STR);
             $ps->bindValue(":price", intval($price), PDO::PARAM_INT);
 
@@ -103,7 +111,7 @@
         $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         $ps->execute(array(":uuid"=>$uuid));
         $result = $ps->fetchAll();
-        return count($result)>0 ? $result[0][0] : 0;
+        return !empty($result) ? $result[0][0] : 0;
     }
 
     function items_purchased($uuid){
@@ -112,7 +120,7 @@
         $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         $ps->execute(array(":uuid"=>$uuid));
         $result = $ps->fetchAll();
-        return count($result)>0 ? $result[0][0] : 0;
+        return !empty($result) ? $result[0][0] : 0;
     }
 
     function item_available($listing){
