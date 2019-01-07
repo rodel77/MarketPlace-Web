@@ -114,6 +114,16 @@ function showTooltip(e){
     var string = e.target.querySelector(".inv-sprite").dataset.name;
     var lore_el = tooltip.querySelector(".lore");
 
+    var price = tooltip.querySelector(".price");
+    if(price){
+        price.innerText = e.target.querySelector(".inv-sprite").dataset.total;
+    }
+
+    var seller = tooltip.querySelector(".seller");
+    if(seller){
+        seller.innerText = e.target.querySelector(".inv-sprite").dataset.seller;
+    }
+
     parse_color(string, tooltip.querySelector(".name"));
     while(lore_el.firstChild){
         lore_el.removeChild(lore_el.firstChild);
@@ -169,26 +179,4 @@ function parse_color(string = "", element){
     element.append(current);
 
     // return final_string;
-}
-
-function loadItem(cacheKey, endpoint, displayName){
-    fetch(endpoint).then(function(response){
-        return response.json();
-    }).then(function(json){
-        var image = "";
-        if(typeof json.image == "string"){
-            image = json.image;
-        }else{
-            image = json.image.prerendered;
-        }
-
-        cache[cacheKey] = image;
-
-        for(var item of document.querySelectorAll("."+cacheKey)){
-            item.src = "https://assets.wurstmineberg.de/img/grid/"+image;
-            if(item.dataset.name==""){
-                item.dataset.name = displayName;
-            }
-        }
-    });
 }

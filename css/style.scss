@@ -9,6 +9,10 @@ body {
     background-position: center;
 }
 
+.page-slider {
+    font-size: 20px;
+}
+
 @mixin inventory($slot-size, $title-size) {
     $pixel-size: $slot-size/16;
 

@@ -3,8 +3,19 @@
         $newOpts = array();
 
         foreach ($options as $key => $value) {
-            assert($key=="catalog" || $key=="accounts", "Key must be catalog or accounts");
-            array_push($newOpts, "`".($key=="catalog" ? DB_TABLE_CATALOG : DB_TABLE_ACCOUNTS)."` ".$value);
+            $selc = "";
+            
+            if($key=="catalog"){
+                $selc = DB_TABLE_CATALOG;
+            }elseif($key=="accounts"){
+                $selc = DB_TABLE_ACCOUNTS;
+            }elseif($key=="syncinfo"){
+                $selc = DB_TABLE_SYNCINFO;
+            }else{
+                continue;
+            }
+
+            array_push($newOpts, "`".$selc."` ".$value);
         }
 
         db_connect()->exec("lock tables ".implode(", ", $newOpts).";");
@@ -69,9 +80,9 @@
     // in database
     function purchase_item($uuid, $name, $id, $price){
         $connection = db_connect();
-        $sql = "update `".DB_TABLE_CATALOG."` set `buyer`=:uuid, `buyer_name`=:name, `buy_date`=NOW() where `id`=:id;";
+        $sql = "update `".DB_TABLE_CATALOG."` set `buyer`=:uuid, `buyer_name`=:name, `buy_date`=NOW(), `purchase_reference`=:purchase_reference where `id`=:id;";
         $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-        if($ps->execute(array(":uuid"=>$uuid, ":name"=>$name, ":id"=>$id))){
+        if($ps->execute(array(":uuid"=>$uuid, ":name"=>$name, ":id"=>$id, ":purchase_reference"=>"WEBMARKET"))){
             $sql = "update `".DB_TABLE_ACCOUNTS."` set `deliveries` = json_array_insert(`deliveries`, '$[0]', :id), `money` = `money`-:price where `uuid` = :uuid;";
             $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
 
@@ -131,14 +142,32 @@
             array_push($lore_data, 'data-lore-'.$idx.'="'.htmlspecialchars($line).'"');
         }
 
-        return str_replace("\n", "", str_replace("   ", "", '<a href="listing.php?id='.$query["id"].'" class="invslot" onmouseenter="showTooltip(event)" onmouseleave="hideTooltip(event)" onmousemove="handleTooltip(event)" onload="item_loaded"><span class="invslot-item"><span class="inv-sprite" data-bukkit="'.$query["item_type"].'" data-id="'.$query["id"].'" data-durability="'.$query["item_durability"].'" data-amount="'.$query["item_amount"].'" data-head="'.$head.'" data-name="'.htmlspecialchars(getname($nbt)).'" data-lore="'.count($lore).'" '.implode(" ", $lore_data).'"><br></span></span></a>'));
+        $tax = raw_purchase_tax();
+
+        return str_replace("\n", "", str_replace("   ", "", '<a href="listing.php?id='.$query["id"].'" class="invslot" onmouseenter="showTooltip(event)" onmouseleave="hideTooltip(event)" onmousemove="handleTooltip(event)" onload="item_loaded"><span class="invslot-item"><span class="inv-sprite" data-bukkit="'.$query["item_type"].'" data-id="'.$query["id"].'" data-durability="'.$query["item_durability"].'" data-amount="'.$query["item_amount"].'" data-head="'.$head.'" data-name="'.htmlspecialchars(getname($nbt)).'" data-lore="'.count($lore).'" '.implode(" ", $lore_data).'" data-seller="'.$query["seller_name"].'" data-total="'.price_format($query["price"] + ($query["price"]*$tax)).'"><br></span></span></a>'));
     }
 
-    function fetch_main(){
+    function fetch_main($current_page){
+        $start = ($current_page-1)*ITEMS_PER_PAGE;
+        $end = ITEMS_PER_PAGE;
         $connection = db_connect();
-        $sql = "select * from `".DB_TABLE_CATALOG."` where `buyer` is null and `cancelled`=0 and (`expire_time`>NOW() or `expire_time` is null) order by `publish_date` DESC".(ITEMS_PER_PAGE>0 ? "limit ".ITEMS_PER_PAGE : "");
+        $sql = "select * from `".DB_TABLE_CATALOG."` where `buyer` is null and `cancelled`=0 and (`expire_time`>NOW() or `expire_time` is null) order by `publish_date` DESC".(ITEMS_PER_PAGE>0 ? " limit ".$start.",".$end : "");
         $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         $ps->execute();
+        $result = $ps->fetchAll();
+
+        foreach ($result as $key => $value) {
+            echo get_item($value);
+        }
+    }
+
+    function fetch_profile($uuid){
+        $connection = db_connect();
+
+        // @Warning: Add limit
+        $sql = "select * from `".DB_TABLE_CATALOG."` where `seller`=:uuid and `buyer` is null and `cancelled`=0 and (`expire_time`>NOW() or `expire_time` is null) order by `publish_date` DESC";
+        $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $ps->execute(array(":uuid"=>$uuid));
         $result = $ps->fetchAll();
 
         foreach ($result as $key => $value) {

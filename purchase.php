@@ -46,7 +46,10 @@
                         
                         unset($_SESSION["token"]);
 
-                        lock_table(array("catalog"=>"write","accounts"=>"write"));
+                        lock_table(array(
+                            "catalog"=>"write",
+                            "accounts"=>"write",
+                            "syncinfo"=>"write"));
 
                         $listing = fetch_item($_POST["id"]);
                         
@@ -62,13 +65,15 @@
                             die();
                         }
                         
-                        if($GLOBALS["account"]->money<$listing["price"]){
+                        $total_price = $listing["price"] + $listing["price"]*raw_purchase_tax();
+
+                        if($GLOBALS["account"]->money<$total_price){
                             echo '<div class="alert alert-danger mt-4 color-c minefont" role="alert">You don\'t have money to acquire this item</div>';
                             unlock_table();
                             die();
                         }
                         
-                        if(!purchase_item($GLOBALS["account"]->uuid, $GLOBALS["account"]->name, $_POST["id"], $listing["price"])){
+                        if(!purchase_item($GLOBALS["account"]->uuid, $GLOBALS["account"]->name, $_POST["id"], $total_price)){
                             echo '<div class="alert alert-danger mt-4 color-c minefont" role="alert">Error while purchasing the listing, please try later</div>';
                             unlock_table();
                             die();

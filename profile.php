@@ -37,6 +37,13 @@
 ?>
 <body>
     <?php include("nav.php") ?>
+    <div id="minetip-tooltip" style="display:none;">
+        <span class="name"></span><br>
+        <span class="lore"></span><br>
+        <span class="color-7">Total Price: <span class="color-6 price"></span></span>
+    </div>
+    <script src="items/bukkit2icon.js"></script>
+    <script src="js/index.js"></script>
 
 <div class="container my-5">
     <div class="row align-items-center justify-content-center">
@@ -70,6 +77,8 @@
                     <h5 class="color-6 minefont">Items sold: <span class="color-a minefont"> <?php echo items_sold($u_uuid); ?></span></h5>
                     <h5 class="color-6 minefont">Items purchased: <span class="color-a minefont"> <?php echo items_purchased($u_uuid); ?></span></h5>
                     <?php } ?>
+
+                    <?php fetch_profile($u_uuid); ?>
                 </div>
             </div>
         </div>

@@ -45,6 +45,9 @@
                                 <div class="col col-4 col-lg-3">
                                     <?php
                                         echo get_item($listing);
+
+                                        $buy_tax = raw_purchase_tax();
+                                        $total_price = $listing["price"] + $buy_tax*$listing["price"];
                                     ?>
                                 </div>
                                 <div class="col col-8 col-lg-9 lore">
@@ -58,6 +61,10 @@
                             <span class="color-f minefont">Seller: <a href="/profile.php?user=<?php echo $listing["seller"]; ?>" class="color-6 color-n"><?php echo $listing["seller_name"]; ?></a></span></span>
                             <span class="color-f minefont">Published: <span class="date-moment color-6"><?php echo $listing["publish_date"]; ?></span></span>
                             <span class="color-f minefont">Price: <span class="color-6"><?php echo price_format($listing["price"]); ?></span></span>
+                            <?php if($buy_tax) { ?>
+                                <span class="color-f minefont">Tax: <span class="color-6"><?php echo price_format(purchase_tax($listing["price"])); ?></span></span>
+                                <span class="color-a minefont">Total: <span class="color-6"><?php echo price_format($total_price); ?></span></span>
+                            <?php } ?>
                             
                             <?php 
                             // @Warning: Horrible identation...
@@ -66,10 +73,8 @@
                                     <div class="alert alert-danger mt-4 color-c minefont" role="alert">So but this listing is no longer available!</div>
                             <?php 
                                 }else{ 
-                                    $can_acquire = floatval($GLOBALS["account"]->money)>=floatval($listing["price"]);
-                                    if(!$can_acquire) { ?>
-                                        <div class="alert alert-danger mt-4 color-c minefont" role="alert">You don't have money to acquire this item</div>
-                                <?php } ?>
+                                    $can_acquire = floatval($GLOBALS["account"]->money)>=$total_price;
+                                    ?>
 
                             <form action=<?php echo get_path("purchase"); ?> method="POST">
                                 <input type="hidden" name="id" value="<?php echo $listing["id"]; ?>">
@@ -78,6 +83,8 @@
                                         if($listing["seller"]!=$GLOBALS["account"]->uuid) {
                                             if($can_acquire){?>
                                             <button type="submit" class="btn btn-success color-f minefont order-button">Order</button>
+                                        <?php }else { ?>
+                                            <div class="alert alert-danger mt-4 color-c minefont" role="alert">You don't have money to acquire this item</div>
                                         <?php } ?>
                                     <?php } else { ?>
                                             <button type="submit" class="btn btn-danger color-f minefont order-button" disabled>Cancel (WIP)</button>
