@@ -33,9 +33,8 @@ Report issues: https://github.com/rodel77/MarketPlace-Web/issues
 ## Localization:
 
 ### To change the language of "X minutes/hours etc...ago":
-+ Go to https://cdnjs.com/libraries/moment.js/
-+ Copy the URL of your locale for example: https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/es.js (es from Spanish)
-+ Go to the end of the page of the ``index.php`` file and find the html tag inside "Localization" comments, then paste the URL insided src="" quotes, it should look like this ``<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/es.js"></script>``
++ See the name of your locale, you can go to https://cdnjs.com/libraries/moment.js/
++ Set in your config file the `MOMENT_LANG` into your language (for example `es` is Spanish)
 
 ### Change general language
 Currently the only way to change the language of the page is editing the index.php file (wich) is not recommended

@@ -27,6 +27,8 @@
         "MONEY_DECIMAL_SEPARATOR" => ".",
         "MONEY_THOUSAND_SEPARATOR" => ",",
 
+        "MOMENT_LANG" => "en",
+
         "WEB_ACCOUNTS_ENABLED" => false, // true = Enabled, false = Disabled
     );
 ?>

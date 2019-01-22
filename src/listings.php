@@ -152,7 +152,7 @@
 
         $tax = raw_purchase_tax();
 
-        return str_replace("\n", "", str_replace("   ", "", '<a href="'.get_path("listing").'?id='.$query["id"].'" class="invslot" onmouseenter="showTooltip(event)" onmouseleave="hideTooltip(event)" onmousemove="handleTooltip(event)" onload="item_loaded"><span class="invslot-item"><span class="inv-sprite" data-bukkit="'.$query["item_type"].'" data-id="'.$query["id"].'" data-durability="'.$query["item_durability"].'" data-amount="'.$query["item_amount"].'" data-head="'.$head.'" data-name="'.htmlspecialchars(getname($nbt)).'" data-lore="'.count($lore).'" '.implode(" ", $lore_data).'" data-seller="'.$query["seller_name"].'" data-total="'.price_format($query["price"] + ($query["price"]*$tax)).'"><br></span></span></a>'));
+        return str_replace("\n", "", str_replace("   ", "", '<a href="'.get_path("listing").'?id='.$query["id"].'" class="invslot" onmouseenter="showTooltip(event)" onmouseleave="hideTooltip(event)" onmousemove="handleTooltip(event)" onload="item_loaded"><span class="invslot-item"><span class="inv-sprite" data-bukkit="'.$query["item_type"].'" data-id="'.$query["id"].'" data-durability="'.$query["item_durability"].'" data-amount="'.$query["item_amount"].'" data-head="'.$head.'" data-name="'.htmlspecialchars(getname($nbt)).'" data-lore="'.count($lore).'" '.implode(" ", $lore_data).'" data-seller="'.$query["seller_name"].'" data-date="'.$query["publish_date"].'" data-total="'.price_format($query["price"] + ($query["price"]*$tax)).'"><br></span></span></a>'));
     }
 
     function fetch_main($current_page){

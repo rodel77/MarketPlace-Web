@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     for(var date of document.querySelectorAll(".date-moment")){
-        date.innerHTML = moment(date.innerHTML, "YYYY-MM-DD hh-mm-ss").fromNow();
+        date.innerHTML = moment(item.dataset.date, "YYYY-MM-DD hh-mm-ss").fromNow();
     }
 
     var invslots = document.querySelectorAll(".invslot");
