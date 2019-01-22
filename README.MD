@@ -7,24 +7,34 @@ Report issues: https://github.com/rodel77/MarketPlace-Web/issues
 ## Requirements:
 + MarketPlace Resource (Using MySQL)
 + PHP <= 7.0.0
-+ mysqli extension enabled
++ PDO extension enabled
++ Git (If you wan't to use the fast install-update mode, and if you can use it on your web server)
+
+## How to install/update with git:
++ Clone the repo ``git clone https://github.com/rodel77/MarketPlace-Web.git marketplace``
++ Go to the new created folder ``marketplace``
++ Copy ``default-config.php`` contents to a new file called ``config.php``
+  + Linux: ``cp default-config.php config.php``
+  + Windows: ``copy default-config.php config.php``
+  + If you are using a shared host or don't wanna fell like a hacker... you know how to copy a file
++ Setup your MySQL configuration in the ``config.php`` such as host, user, password, db and table among any other thing you want to change
++ Enjoy!
++ Now if the page tells you to update or you just want to update, use ``git pull`` in the root folder of the page (the one containing ``index.php``), if you didn't change anything more than your config file it should work smooth as butter
 
 ## How to install:
 + Download and copy the files into the folder you want to put the page https://github.com/rodel77/MarketPlace-Web/releases
-+ Configure MySQL host, user, password, db and table in ``config.php``
++ Copy ``default-config.php`` contents to a new file called ``config.php``
+  + Linux: ``cp default-config.php config.php``
+  + Windows: ``copy default-config.php config.php``
+  + If you are using a shared host or don't wanna fell like a hacker... you know how to copy a file
++ Setup your MySQL configuration in the ``config.php`` such as host, user, password, db and table among any other thing you want to change
 + Enjoy!
 
 ## Localization:
 
 ### To change the language of "X minutes/hours etc...ago":
-+ Go to https://cdnjs.com/libraries/moment.js/
-+ Copy the URL of your locale for example: https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/es.js (es from Spanish)
-+ Go to the end of the page of the ``index.php`` file and find the html tag inside "Localization" comments, then paste the URL insided src="" quotes, it should look like this ``<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/es.js"></script>``
++ See the name of your locale, you can go to https://cdnjs.com/libraries/moment.js/
++ Set in your config file the `MOMENT_LANG` into your language (for example `es` is Spanish)
 
 ### Change general language
-Currently the only way to change the language of the page is editing the index.php file
-
-
-## Third Party Libs:
-+ Bootstrap 4.0.0
-+ Moment.js 2.20.1
+Currently the only way to change the language of the page is editing the index.php file (wich) is not recommended
