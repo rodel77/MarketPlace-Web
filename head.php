@@ -56,7 +56,7 @@
 
                     <p class="color-f minefont">> MarketPlace plugin request protocol <span class="color-a"><?php echo $mp_protocol; ?></span></p>
                     <p class="color-f minefont">> WebMarket is still on protocol <span class="color-4"><?php echo MP_PROTOCOL; ?></span></p>
-                    <p class="color-6 minefont">Please update your WebMarket version in order to continue!</p>
+                    <p class="color-6 minefont">Please update your WebMarket version in order to continue: https://github.com/rodel77/MarketPlace-Web</p>
                     </div>
                 </div>
             </div>
