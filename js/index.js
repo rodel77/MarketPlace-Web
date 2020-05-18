@@ -29,7 +29,11 @@ function find_image(namespace, durability = 0){
             }
         }
     }else{
-        console.log("invalid")
+        console.log("Didn't found item", namespace);
+        return {
+            icon: "not-found",
+            data: 0,
+        }
     }
 }
 

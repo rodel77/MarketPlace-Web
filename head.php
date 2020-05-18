@@ -1,7 +1,7 @@
 <?php
     $default_config = include("default-config.php");
 
-    define("MP_PROTOCOL", "1");
+    define("MP_PROTOCOL", "2");
 
     if(file_exists("config.php")){
         $loaded_config = include("config.php");
@@ -17,6 +17,7 @@
         }
     }
 
+    include("src/nbt.class.php");
     include("src/utils.php");
     include("src/db_manager.php");
     include("src/accounts.php");

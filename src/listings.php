@@ -141,18 +141,20 @@
     }
 
     function get_item($query){
-        $nbt = $query["item_nbt"];
-        $lore = getlore($nbt);
-        $lore_data = array();
-        $head = ConvertTextureData($nbt);
+        $bin_nbt = $query["item_bin_nbt"];
 
-        foreach($lore as $idx=>$line){
-            array_push($lore_data, 'data-lore-'.$idx.'="'.htmlspecialchars($line).'"');
+        $lore_data = array();
+        if($query["item_lore"]!=NULL){
+            foreach(json_decode($query["item_lore"]) as $idx=>$line){
+                array_push($lore_data, 'data-lore-'.$idx.'="'.htmlspecialchars($line).'"');
+            }
         }
+
+        $head = "";
 
         $tax = raw_purchase_tax();
 
-        return str_replace("\n", "", str_replace("   ", "", '<a href="'.get_path("listing").'?id='.$query["id"].'" class="invslot" onmouseenter="showTooltip(event)" onmouseleave="hideTooltip(event)" onmousemove="handleTooltip(event)" onload="item_loaded"><span class="invslot-item"><span class="inv-sprite" data-bukkit="'.$query["item_type"].'" data-id="'.$query["id"].'" data-durability="'.$query["item_durability"].'" data-amount="'.$query["item_amount"].'" data-head="'.$head.'" data-name="'.htmlspecialchars(getname($nbt)).'" data-lore="'.count($lore).'" '.implode(" ", $lore_data).'" data-seller="'.$query["seller_name"].'" data-date="'.$query["publish_date"].'" data-total="'.price_format($query["price"] + ($query["price"]*$tax)).'"><br></span></span></a>'));
+        return str_replace("\n", "", str_replace("   ", "", '<a href="'.get_path("listing").'?id='.$query["id"].'" class="invslot" onmouseenter="showTooltip(event)" onmouseleave="hideTooltip(event)" onmousemove="handleTooltip(event)" onload="item_loaded"><span class="invslot-item"><span class="inv-sprite" data-bukkit="'.$query["item_type"].'" data-id="'.$query["id"].'" data-durability="'.$query["item_durability"].'" data-amount="'.$query["item_amount"].'" data-head="'.$head.'" data-name="'.htmlspecialchars($query["item_name"]).'" data-lore="'.count($lore_data).'" '.implode(" ", $lore_data).' data-seller="'.$query["seller_name"].'" data-date="'.$query["publish_date"].'" data-total="'.price_format($query["price"] + ($query["price"]*$tax)).'"><br></span></span></a>'));
     }
 
     function fetch_main($current_page){

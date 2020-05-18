@@ -27,10 +27,10 @@
                         header("Location: ".get_main_path());
                     }else{
                         $listing = $listing[0];
-                        if(getname($listing["item_nbt"])==""){ ?>
+                        if($listing["item_name"]==""){ ?>
                             <span class="title bukkit2name color-f"><?php echo $listing["item_type"]; ?></span>
                         <?php }else{ ?>
-                            <span class="title colorize"><?php echo htmlspecialchars(getname($listing["item_nbt"])); ?></span>
+                            <span class="title colorize"><?php echo htmlspecialchars($listing["item_name"]); ?></span>
                         <?php } ?>
                     <?php } ?>
             <?php 
