@@ -143,14 +143,28 @@
     function get_item($query){
         $bin_nbt = $query["item_bin_nbt"];
 
+        $head = "";
+
+        if(!empty($bin_nbt)){
+            $stream = fopen('php://memory', 'rb+');
+            fwrite($stream, gzdecode($bin_nbt));
+            rewind($stream);
+
+            $tag = new nbt();
+            $tag->loadFile($stream, NULL);
+            $compound = $tag->root[""];
+
+            $head = convertTextureData($compound);
+            fclose($stream);
+        }
+
+
         $lore_data = array();
         if($query["item_lore"]!=NULL){
             foreach(json_decode($query["item_lore"]) as $idx=>$line){
                 array_push($lore_data, 'data-lore-'.$idx.'="'.htmlspecialchars($line).'"');
             }
         }
-
-        $head = "";
 
         $tax = raw_purchase_tax();
 

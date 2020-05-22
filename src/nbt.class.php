@@ -169,10 +169,10 @@ class NBT {
 				$tagID = $this->readType($fp, self::TAG_BYTE);
 				$listLength = $this->readType($fp, self::TAG_INT);
 				if($this->verbose) trigger_error("Reading in list of {$listLength} tags of type {$tagID}.", E_USER_NOTICE);
-				$list = array("type"=>$tagID, "value"=>array());
+				$list = array();
 				for($i = 0; $i < $listLength; $i++) {
 					if(feof($fp)) break;
-					$list["value"][] = $this->readType($fp, $tagID);
+					$list[] = $this->readType($fp, $tagID);
 				}
 				return $list;
 			case self::TAG_COMPOUND: // Compound
