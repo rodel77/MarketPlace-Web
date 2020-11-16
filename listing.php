@@ -30,7 +30,11 @@
                         if($listing["item_name"]==""){ ?>
                             <span class="title bukkit2name color-f"><?php echo $listing["item_type"]; ?></span>
                         <?php }else{ ?>
-                            <span class="title colorize"><?php echo htmlspecialchars($listing["item_name"]); ?></span>
+                            <span class="title">
+                                <span class="color-f">"</span><span class="colorize"><?php echo htmlspecialchars($listing["item_name"]); ?></span><span class="color-f">"</span><span class="color-f"> (</span><span class="color-f bukkit2name"><?php echo $listing["item_type"]; ?></span><span class="color-f">)</span>
+                            </span>
+                            <!-- <span class="bukkit2name color-f title">
+                            </span> -->
                         <?php } ?>
                     <?php } ?>
             <?php 

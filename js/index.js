@@ -11,6 +11,17 @@ function handleTooltip(e){
     tooltip.style.top = ((window.inMobile ? e.screenY : e.clientY)+5)+"px";
 }
 
+function get_name(data, default_name){
+    let name = data.name;
+    if(name){
+        return name;
+    }else{
+        return default_name.split("_").map((word) => {
+            return word.substr(0, 1).toUpperCase()+word.substr(1).toLowerCase();
+        }).join(" ");
+    }
+}
+
 function find_image(namespace, durability = 0){
     var rs = items_map[namespace];
     if(rs){
@@ -44,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     document.querySelectorAll(".bukkit2name").forEach((element)=>{
-        element.innerText = find_image(element.innerText).data.name;
+        element.innerText = get_name(find_image(element.innerText), element.innerText);
     });
 
     {
@@ -98,12 +109,7 @@ document.addEventListener("DOMContentLoaded", function(){
             sprite.style.backgroundImage = "url('"+sprite.dataset.head+"')";
             sprite.classList.add("image-skull");
         }else{
-            sprite.style.backgroundImage = "url('items/images/"+data.icon+".png')";
-        }
-
-
-        if(sprite.dataset.name==""){
-            sprite.dataset.name = data.data.name
+            sprite.style.backgroundImage = "url('items/115/"+sprite.dataset.bukkit+".png'), url('items/images/"+data.icon+".png'), url('items/images/not-found.png')";
         }
     });
 });
@@ -115,7 +121,8 @@ function hideTooltip(e){
 function showTooltip(e){
     tooltip.style.display = "inline";
 
-    var string = e.target.querySelector(".inv-sprite").dataset.name;
+    let sprite = e.target.querySelector(".inv-sprite");
+    // var string = e.target.querySelector(".inv-sprite").dataset.name;
     var lore_el = tooltip.querySelector(".lore");
 
     var price = tooltip.querySelector(".price");
@@ -127,8 +134,19 @@ function showTooltip(e){
     if(seller){
         seller.innerText = e.target.querySelector(".inv-sprite").dataset.seller;
     }
+    // console.log("Colo", string, e.target.querySelector(".inv-sprite").dataset.bukkit)
 
-    parse_color(string, tooltip.querySelector(".name"));
+    // parse_color(string, tooltip.querySelector(".name"));
+    if(sprite.dataset.name){
+
+        parse_color("§f\"§r"+sprite.dataset.name+"§f\"", tooltip.querySelector(".name"));
+        let real_name = document.createElement("SPAN");
+        real_name.classList.add("color-f");
+        real_name.innerText = " ("+get_name(find_image(sprite.dataset.bukkit, sprite.dataset.durability), sprite.dataset.bukkit)+")";
+        tooltip.querySelector(".name").appendChild(real_name);
+    }else{
+        parse_color(get_name(find_image(sprite.dataset.bukkit, sprite.dataset.durability), sprite.dataset.bukkit), tooltip.querySelector(".name"));
+    }
     while(lore_el.firstChild){
         lore_el.removeChild(lore_el.firstChild);
     }
