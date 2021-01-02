@@ -3,8 +3,6 @@
     define("PAGE", "Main");
     define("CONTEXT", "main");
     include("head.php");
-    ses_start();
-    validate_session();
 
     $current_page = 1;
     if(isset($_GET["page"])){

@@ -7,8 +7,6 @@
         header("Location: ".get_main_path());
         die();
     }
-    ses_start();
-    validate_session();
 ?>
 <body>
     <div id="minetip-tooltip" style="display:none;">

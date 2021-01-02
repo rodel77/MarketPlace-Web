@@ -1,8 +1,6 @@
 <?php
     include("head.php");
-    ses_start();
-    validate_session();
-    ses_close();
+    close_session();
 
     header("Location: ".get_main_path());
     die();

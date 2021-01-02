@@ -1,11 +1,11 @@
 <?php
-    function ses_start(){
+    function start_session(){
         if(WEB_ACCOUNTS_ENABLED){
             session_start();
         }
     }
 
-    function ses_close(){
+    function close_session(){
         if(WEB_ACCOUNTS_ENABLED){
             session_destroy();
             $_SESSION = array();
@@ -27,7 +27,7 @@
                 
                 $account = new Account($uuid);
                 if($account->hash!=$hash){
-                    ses_close();
+                    session_close();
                 }else{
                     $GLOBALS["logged"] = true;
                     $GLOBALS["account"] = $account;

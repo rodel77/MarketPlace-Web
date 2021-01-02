@@ -3,8 +3,6 @@
     define("PAGE", "Set pin");
     define("CONTEXT", "setpin");
     include("head.php");
-    ses_start();
-    validate_session();
 ?>
 <body>
 <div class="container" style="height:100vh;">

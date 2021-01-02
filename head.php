@@ -10,7 +10,7 @@
             define($key, $value);
         }
     }
-    
+
     foreach ($default_config as $key => $value) {
         if(!defined($key)){
             define($key, $value);
@@ -25,6 +25,11 @@
     include("src/listings.php");
     include("src/session_manager.php");
     include("src/items.php");
+
+    if(WEB_ACCOUNTS_ENABLED){
+        start_session();
+        validate_session();
+    }
 ?>
 
 <head>

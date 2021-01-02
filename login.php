@@ -3,8 +3,6 @@
     define("PAGE", "Login");
     define("CONTEXT", "login");
     include("head.php");
-    ses_start();
-    validate_session();
     if(WEB_ACCOUNTS_ENABLED && $GLOBALS["logged"]){
         header("Location: ".get_main_path());
         die();

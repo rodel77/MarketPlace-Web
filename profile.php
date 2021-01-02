@@ -3,8 +3,6 @@
     define("PAGE", "Profile");
     define("CONTEXT", "profile");
     include("head.php");
-    ses_start();
-    validate_session();
 
     $selfaccount = false;
 
