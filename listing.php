@@ -1,9 +1,9 @@
-<!DOCTYPE html>
 <?php 
     define("PAGE", "Listing Details");
     define("CONTEXT", "listing");
     include("head.php");
 ?>
+<!DOCTYPE html>
 <body>
     <div id="minetip-tooltip" style="display:none;">
         <span class="name"></span><br>

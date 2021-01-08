@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php 
     define("PAGE", "Listing Details");
     define("CONTEXT", "listing");
@@ -8,6 +7,7 @@
         die();
     }
 ?>
+<!DOCTYPE html>
 <body>
     <div id="minetip-tooltip" style="display:none;">
         <span class="name"></span><br>

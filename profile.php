@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php 
     define("PAGE", "Profile");
     define("CONTEXT", "profile");
@@ -33,6 +32,7 @@
         $u_name = $webaccount->name;
     }
 ?>
+<!DOCTYPE html>
 <body>
     <?php include("nav.php") ?>
     <div id="minetip-tooltip" style="display:none;">
