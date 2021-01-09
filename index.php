@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php 
     define("PAGE", "Main");
     define("CONTEXT", "main");
@@ -13,6 +12,7 @@
 
     include("head.php");
 ?>
+<!DOCTYPE html>
 <body>
     <?php include("src/tooltip.php"); ?>
     <script src="items/bukkit2icon.js"></script>

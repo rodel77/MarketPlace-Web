@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php 
     define("PAGE", "Profile");
     define("CONTEXT", "profile");
@@ -36,6 +35,7 @@
     }
     include("head.php");
 ?>
+<!DOCTYPE html>
 <body>
     <?php include("nav.php") ?>
     <div id="minetip-tooltip" style="display:none;">

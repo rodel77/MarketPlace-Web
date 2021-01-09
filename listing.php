@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php 
     define("PAGE", "Listing Details");
     define("CONTEXT", "listing");
@@ -7,6 +6,7 @@
     validate_session();
     include("head.php");
 ?>
+<!DOCTYPE html>
 <body>
     <div id="minetip-tooltip" style="display:none;">
         <span class="name"></span><br>
