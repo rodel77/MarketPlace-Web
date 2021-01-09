@@ -2,6 +2,7 @@
     define("PAGE", "Login");
     define("CONTEXT", "login");
     include("head.php");
+
     if(WEB_ACCOUNTS_ENABLED && $GLOBALS["logged"]){
         header("Location: ".get_main_path());
         die();

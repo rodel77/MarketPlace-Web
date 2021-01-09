@@ -1,5 +1,4 @@
 <?php 
-    phpinfo();
     define("PAGE", "Main");
     define("CONTEXT", "main");
     include("head.php");

@@ -17,19 +17,19 @@
         }
     }
 
+    include("src/db_manager.php");
+    if(WEB_ACCOUNTS_ENABLED){
+        start_session();
+        validate_session();
+    }
+
     include("src/nbt.class.php");
     include("src/utils.php");
-    include("src/db_manager.php");
     include("src/accounts.php");
     include("src/sync_info.php");
     include("src/listings.php");
     include("src/session_manager.php");
     include("src/items.php");
-
-    if(WEB_ACCOUNTS_ENABLED){
-        start_session();
-        validate_session();
-    }
 ?>
 
 <head>
