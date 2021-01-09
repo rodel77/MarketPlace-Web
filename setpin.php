@@ -2,9 +2,10 @@
 <?php 
     define("PAGE", "Set pin");
     define("CONTEXT", "setpin");
-    include("head.php");
+    include("core.php");
     ses_start();
     validate_session();
+    include("head.php");
 ?>
 <body>
 <div class="container" style="height:100vh;">

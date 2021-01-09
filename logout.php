@@ -1,5 +1,5 @@
 <?php
-    include("head.php");
+    include("core.php");
     ses_start();
     validate_session();
     ses_close();

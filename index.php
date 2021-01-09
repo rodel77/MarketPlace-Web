@@ -2,7 +2,7 @@
 <?php 
     define("PAGE", "Main");
     define("CONTEXT", "main");
-    include("head.php");
+    include("core.php");
     ses_start();
     validate_session();
 
@@ -10,6 +10,8 @@
     if(isset($_GET["page"])){
         $current_page = max(abs(floatval($_GET["page"])), 1);
     }
+
+    include("head.php");
 ?>
 <body>
     <?php include("src/tooltip.php"); ?>

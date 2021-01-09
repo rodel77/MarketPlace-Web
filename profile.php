@@ -2,7 +2,7 @@
 <?php 
     define("PAGE", "Profile");
     define("CONTEXT", "profile");
-    include("head.php");
+    include("core.php");
     ses_start();
     validate_session();
 
@@ -34,6 +34,7 @@
         $u_uuid = $webaccount->uuid;
         $u_name = $webaccount->name;
     }
+    include("head.php");
 ?>
 <body>
     <?php include("nav.php") ?>

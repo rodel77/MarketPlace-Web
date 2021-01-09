@@ -2,7 +2,7 @@
 <?php 
     define("PAGE", "Login");
     define("CONTEXT", "login");
-    include("head.php");
+    include("core.php");
     ses_start();
     validate_session();
     if(WEB_ACCOUNTS_ENABLED && $GLOBALS["logged"]){
@@ -31,6 +31,7 @@
             $valid_account = false;
         }
     }
+    include("head.php");
 ?>
 <body>
 <div class="container" style="height:100vh;">
