@@ -1,6 +1,11 @@
 <?php 
     define("PAGE", "Set pin");
     define("CONTEXT", "setpin");
+
+    include("core.php");
+    ses_start();
+    validate_session();
+
     include("head.php");
 ?>
 <!DOCTYPE html>

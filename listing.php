@@ -1,6 +1,11 @@
 <?php 
     define("PAGE", "Listing Details");
     define("CONTEXT", "listing");
+
+    include("core.php");
+    ses_start();
+    validate_session();
+
     include("head.php");
 ?>
 <!DOCTYPE html>

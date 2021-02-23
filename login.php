@@ -1,7 +1,10 @@
 <?php 
     define("PAGE", "Login");
     define("CONTEXT", "login");
-    include("head.php");
+
+    include("core.php");
+    ses_start();
+    validate_session();
 
     if(WEB_ACCOUNTS_ENABLED && $GLOBALS["logged"]){
         header("Location: ".get_main_path());
@@ -29,6 +32,7 @@
             $valid_account = false;
         }
     }
+    include("head.php");
 ?>
 <!DOCTYPE html>
 <body>

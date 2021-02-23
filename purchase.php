@@ -1,11 +1,16 @@
 <?php 
     define("PAGE", "Listing Details");
     define("CONTEXT", "listing");
-    include("head.php");
+    include("core.php");
     if(!WEB_ACCOUNTS_ENABLED){
         header("Location: ".get_main_path());
         die();
     }
+
+    ses_start();
+    validate_session();
+    include("head.php");
+
 ?>
 <!DOCTYPE html>
 <body>
