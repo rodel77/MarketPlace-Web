@@ -6,9 +6,11 @@
         header("Location: ".get_main_path());
         die();
     }
+
     ses_start();
     validate_session();
     include("head.php");
+
 ?>
 <!DOCTYPE html>
 <body>

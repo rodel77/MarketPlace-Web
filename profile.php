@@ -1,9 +1,11 @@
 <?php 
     define("PAGE", "Profile");
     define("CONTEXT", "profile");
+
     include("core.php");
     ses_start();
     validate_session();
+
 
     $selfaccount = false;
 
