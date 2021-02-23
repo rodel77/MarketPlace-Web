@@ -3,7 +3,7 @@
     define("CONTEXT", "login");
 
     include("core.php");
-    ses_start();
+    start_session();
     validate_session();
 
     if(WEB_ACCOUNTS_ENABLED && $GLOBALS["logged"]){

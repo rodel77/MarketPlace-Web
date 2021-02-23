@@ -3,7 +3,7 @@
     define("CONTEXT", "profile");
 
     include("core.php");
-    ses_start();
+    start_session();
     validate_session();
 
 

@@ -7,7 +7,7 @@
         die();
     }
 
-    ses_start();
+    start_session();
     validate_session();
     include("head.php");
 

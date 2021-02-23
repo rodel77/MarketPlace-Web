@@ -2,7 +2,7 @@
     define("PAGE", "Main");
     define("CONTEXT", "main");
     include("core.php");
-    ses_start();
+    start_session();
     validate_session();
 
     $current_page = 1;

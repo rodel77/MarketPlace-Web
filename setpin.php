@@ -3,7 +3,7 @@
     define("CONTEXT", "setpin");
 
     include("core.php");
-    ses_start();
+    start_session();
     validate_session();
 
     include("head.php");
