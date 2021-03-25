@@ -11,6 +11,7 @@
 <!DOCTYPE html>
 <body>
     <div id="minetip-tooltip" style="display:none;">
+        <span class="enchantments"></span><br>
         <span class="name"></span><br>
         <span class="lore"></span>
     </div>
@@ -58,6 +59,8 @@
                                     ?>
                                 </div>
                                 <div class="col col-8 col-lg-9 lore">
+                                </div>
+                                <div class="col col-8 col-lg-9 enchantments">
                                 </div>
                             </div>
                         </div>

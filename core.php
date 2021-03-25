@@ -1,7 +1,7 @@
 <?php
     $default_config = include("default-config.php");
 
-    define("MP_PROTOCOL", "2");
+    define("MP_PROTOCOL", "3");
 
     if(file_exists("config.php")){
         $loaded_config = include("config.php");

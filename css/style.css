@@ -19,6 +19,13 @@ body {
   text-align: left;
 }
 
+.details > .enchantments > span {
+  display: block;
+  font-family: MineFont, sans-serif;
+  font-size: 2rem;
+  text-align: left;
+}
+
 .bg-inventory {
   color: #404040 !important;
   background-color: #c6c6c6;

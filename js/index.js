@@ -5,6 +5,8 @@ window.mobileAndTabletcheck = function() {
 };
 window.inMobile = window.mobileAndTabletcheck();
 
+var lang_file;
+
 var tooltip = document.getElementById("minetip-tooltip");
 function handleTooltip(e){
     tooltip.style.left = ((window.inMobile ? e.screenX : e.clientX)+5)+"px";
@@ -49,68 +51,101 @@ function find_image(namespace, durability = 0){
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-    document.querySelectorAll(".colorize").forEach((element)=>{
-        var text = element.innerText;
-        parse_color(text, element);
-    });
-
-    document.querySelectorAll(".bukkit2name").forEach((element)=>{
-        element.innerText = get_name(find_image(element.innerText), element.innerText);
-    });
-
-    {
-        var details_lore = document.querySelector(".details > .lore");
-        var item = document.querySelector(".inv-sprite");
-
-        if(details_lore!=null){
-            if(item.dataset.lore>0){
-                for (let i = 0; i < item.dataset.lore; i++) {
+    fetch("./lang.json").then(response => response.json()).then((lang) => {
+        lang_file = lang;
+        document.querySelectorAll(".colorize").forEach((element)=>{
+            var text = element.innerText;
+            parse_color(text, element);
+        });
+    
+        document.querySelectorAll(".bukkit2name").forEach((element)=>{
+            element.innerText = get_name(find_image(element.innerText), element.innerText);
+        });
+    
+        {
+            var details_lore = document.querySelector(".details > .lore");
+            var item = document.querySelector(".inv-sprite");
+    
+            if(details_lore!=null){
+                if(item.dataset.lore>0){
+                    for (let i = 0; i < item.dataset.lore; i++) {
+                        var line = document.createElement("SPAN");
+                        parse_color(item.dataset["lore-"+i], line);
+                        details_lore.append(line);
+                    }
+                }else{
                     var line = document.createElement("SPAN");
-                    parse_color(item.dataset["lore-"+i], line);
+                    line.innerText = "No lore";
                     details_lore.append(line);
                 }
-            }else{
-                var line = document.createElement("SPAN");
-                line.innerText = "No lore";
-                details_lore.append(line);
             }
         }
-    }
 
-    for(var date of document.querySelectorAll(".date-moment")){
-        date.innerHTML = moment(item.dataset.date, "YYYY-MM-DD hh-mm-ss").fromNow();
-    }
+        {
+            var details_enchantments = document.querySelector(".details > .enchantments");
+            var item = document.querySelector(".inv-sprite");
 
-    var invslots = document.querySelectorAll(".invslot");
-    invslots.forEach((element)=>{
-        var sprite = element.querySelector(".inv-sprite");
-        var data = find_image(sprite.dataset.bukkit, sprite.dataset.durability);
-
-        if(data.max_durability!=null && sprite.dataset.durability!=0){
-            var bar = document.createElement("SPAN");
-            var durability = document.createElement("SPAN");
-            durability.append(sprite.firstChild);
-            durability.classList.add("durability");
-            var display = parseInt(sprite.dataset.durability)/data.max_durability;
-            durability.style.backgroundColor = "rgb("+(display*255)+", "+(255-display*255)+", 0)";
-            durability.style.width = (display*100)+"%";
-            bar.classList.add("durability-bar");
-            bar.append(durability);
-            sprite.append(bar);
-        }else if(sprite.dataset.amount>1){
-            var amount = document.createElement("SPAN");
-            amount.classList.add("amount");
-            amount.innerText = sprite.dataset.amount;
-            sprite.firstChild.remove();
-            sprite.append(amount);
+            if(item.dataset.enchantments && details_enchantments){
+                let enchantments = JSON.parse(item.dataset.enchantments);
+                for (let i = 0; i < enchantments.length; i++) {
+                    const enchantment = enchantments[i];
+                    const name = lang_file["enchantment."+(enchantment.id.replace(":", "."))];
+                    const line = document.createElement("SPAN");
+                    parse_color("§7"+name+" "+enchantment.lvl+"\n", line);
+                    details_enchantments.append(line);
+                }
+            }
+    
+            // if(details_enchantments!=null){
+            //     if(item.dataset.lore>0){
+            //         for (let i = 0; i < item.dataset.lore; i++) {
+            //             var line = document.createElement("SPAN");
+            //             parse_color(item.dataset["lore-"+i], line);
+            //             details_enchantments.append(line);
+            //         }
+            //     }else{
+            //         var line = document.createElement("SPAN");
+            //         line.innerText = "No lore";
+            //         details_enchantments.append(line);
+            //     }
+            // }
         }
-
-        if(sprite.dataset.head!=""){
-            sprite.style.backgroundImage = "url('"+sprite.dataset.head+"')";
-            sprite.classList.add("image-skull");
-        }else{
-            sprite.style.backgroundImage = "url('items/115/"+sprite.dataset.bukkit+".png'), url('items/images/"+data.icon+".png'), url('items/images/not-found.png')";
+    
+        for(var date of document.querySelectorAll(".date-moment")){
+            date.innerHTML = moment(item.dataset.date, "YYYY-MM-DD hh-mm-ss").fromNow();
         }
+    
+        var invslots = document.querySelectorAll(".invslot");
+        invslots.forEach((element)=>{
+            var sprite = element.querySelector(".inv-sprite");
+            var data = find_image(sprite.dataset.bukkit, sprite.dataset.durability);
+    
+            if(data.max_durability!=null && sprite.dataset.durability!=0){
+                var bar = document.createElement("SPAN");
+                var durability = document.createElement("SPAN");
+                durability.append(sprite.firstChild);
+                durability.classList.add("durability");
+                var display = parseInt(sprite.dataset.durability)/data.max_durability;
+                durability.style.backgroundColor = "rgb("+(display*255)+", "+(255-display*255)+", 0)";
+                durability.style.width = (display*100)+"%";
+                bar.classList.add("durability-bar");
+                bar.append(durability);
+                sprite.append(bar);
+            }else if(sprite.dataset.amount>1){
+                var amount = document.createElement("SPAN");
+                amount.classList.add("amount");
+                amount.innerText = sprite.dataset.amount;
+                sprite.firstChild.remove();
+                sprite.append(amount);
+            }
+    
+            if(sprite.dataset.head!=""){
+                sprite.style.backgroundImage = "url('"+sprite.dataset.head+"')";
+                sprite.classList.add("image-skull");
+            }else{
+                sprite.style.backgroundImage = "url('items/115/"+sprite.dataset.bukkit+".png'), url('items/images/"+data.icon+".png'), url('items/images/not-found.png')";
+            }
+        });
     });
 });
 
@@ -124,6 +159,7 @@ function showTooltip(e){
     let sprite = e.target.querySelector(".inv-sprite");
     // var string = e.target.querySelector(".inv-sprite").dataset.name;
     var lore_el = tooltip.querySelector(".lore");
+    var enchantments_element = tooltip.querySelector(".enchantments");
 
     var price = tooltip.querySelector(".price");
     if(price){
@@ -136,9 +172,20 @@ function showTooltip(e){
     }
     // console.log("Colo", string, e.target.querySelector(".inv-sprite").dataset.bukkit)
 
-    // parse_color(string, tooltip.querySelector(".name"));
-    if(sprite.dataset.name){
 
+    while(enchantments_element.firstChild) enchantments_element.removeChild(enchantments_element.firstChild);
+    if(sprite.dataset.enchantments){
+        let enchantments = JSON.parse(sprite.dataset.enchantments);
+        for (let i = 0; i < enchantments.length; i++) {
+            const enchantment = enchantments[i];
+            const name = lang_file["enchantment."+(enchantment.id.replace(":", "."))];
+            const line = document.createElement("SPAN");
+            parse_color("§7"+name+" "+enchantment.lvl+"\n", line);
+            enchantments_element.append(line);
+        }
+    }
+
+    if(sprite.dataset.name){
         parse_color("§f\"§r"+sprite.dataset.name+"§f\"", tooltip.querySelector(".name"));
         let real_name = document.createElement("SPAN");
         real_name.classList.add("color-f");
@@ -147,6 +194,7 @@ function showTooltip(e){
     }else{
         parse_color(get_name(find_image(sprite.dataset.bukkit, sprite.dataset.durability), sprite.dataset.bukkit), tooltip.querySelector(".name"));
     }
+
     while(lore_el.firstChild){
         lore_el.removeChild(lore_el.firstChild);
     }

@@ -7,6 +7,7 @@ Report issues: https://github.com/rodel77/MarketPlace-Web/issues
 ## Requirements:
 + [MarketPlace](https://www.spigotmc.org/resources/48526/) <= 2.0 ([Type](https://marketplacedocs.readthedocs.io/en/latest/config/database.type.html) set to MySQL)
 + PHP <= 7.0.0
++ curl (for webhooks)
 + PDO extension enabled
 + Git (If you wan't to use the fast install-update mode, and if you can use it on your web server)
 

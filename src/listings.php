@@ -80,9 +80,16 @@
     // in database
     function purchase_item($uuid, $name, $id, $price){
         $connection = db_connect();
+
+        $sql = "select `item_type`,`seller_name`,`item_amount`from `".DB_TABLE_CATALOG."` where `id` = :id";
+        $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $ps->execute(array(":id"=>$id));
+        $result = $ps->fetchAll();
+
         $sql = "update `".DB_TABLE_CATALOG."` set `buyer`=:uuid, `buyer_name`=:name, `buy_date`=NOW(), `purchase_reference`=:purchase_reference where `id`=:id;";
         $ps = $connection->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         if($ps->execute(array(":uuid"=>$uuid, ":name"=>$name, ":id"=>$id, ":purchase_reference"=>"WEBMARKET"))){
+            send_webhook($name, $result[0][2]." ".$result[0][0], $price, $result[0][1]);
             
             $ps = $connection->prepare("select `deliveries` from `".DB_TABLE_ACCOUNTS."` where `uuid`=:uuid");
             $ps->execute(array(":uuid"=>$uuid));
@@ -144,6 +151,7 @@
         $bin_nbt = $query["item_bin_nbt"];
 
         $head = "";
+        $enchantments = "";
 
         if(!empty($bin_nbt)){
             $stream = fopen('php://memory', 'rb+');
@@ -155,6 +163,9 @@
             $compound = $tag->root[""];
 
             $head = convertTextureData($compound);
+
+            $enchantments = htmlspecialchars(get_enchantments($compound));
+
             fclose($stream);
         }
 
@@ -168,7 +179,7 @@
 
         $tax = raw_purchase_tax();
 
-        return str_replace("\n", "", str_replace("   ", "", '<a href="'.get_path("listing").'?id='.$query["id"].'" class="invslot" onmouseenter="showTooltip(event)" onmouseleave="hideTooltip(event)" onmousemove="handleTooltip(event)" onload="item_loaded"><span class="invslot-item"><span class="inv-sprite" data-bukkit="'.$query["item_type"].'" data-id="'.$query["id"].'" data-durability="'.$query["item_durability"].'" data-amount="'.$query["item_amount"].'" data-head="'.$head.'" data-name="'.htmlspecialchars($query["item_name"]).'" data-lore="'.count($lore_data).'" '.implode(" ", $lore_data).' data-seller="'.$query["seller_name"].'" data-date="'.$query["publish_date"].'" data-total="'.price_format($query["price"] + ($query["price"]*$tax)).'"><br></span></span></a>'));
+        return str_replace("\n", "", str_replace("   ", "", '<a href="'.get_path("listing").'?id='.$query["id"].'" class="invslot" onmouseenter="showTooltip(event)" onmouseleave="hideTooltip(event)" onmousemove="handleTooltip(event)" onload="item_loaded"><span class="invslot-item"><span class="inv-sprite" data-bukkit="'.$query["item_type"].'" data-id="'.$query["id"].'" data-durability="'.$query["item_durability"].'" data-amount="'.$query["item_amount"].'" data-head="'.$head.'" data-name="'.htmlspecialchars($query["item_name"]).'" data-lore="'.count($lore_data).'" '.implode(" ", $lore_data).' data-enchantments="'.$enchantments.'" data-seller="'.$query["seller_name"].'" data-date="'.$query["publish_date"].'" data-total="'.price_format($query["price"] + ($query["price"]*$tax)).'"><br></span></span></a>'));
     }
 
     function fetch_main($current_page){
