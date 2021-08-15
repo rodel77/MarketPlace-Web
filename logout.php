@@ -2,7 +2,7 @@
     include("core.php");
     start_session();
     validate_session();
-    ses_close();
+    close_session();
 
 
     header("Location: ".get_main_path());
